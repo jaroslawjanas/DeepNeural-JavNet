@@ -87,7 +87,7 @@ public class Matrix {
         }
     }
 
-    public void output(){
+    public void print(){
         for(double[] row : matrix){
             for(double val : row){
                 System.out.print(val + ", ");

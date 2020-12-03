@@ -22,6 +22,6 @@ public class Main {
 
         Matrix random = new Matrix(3, 3);
         random.initRandom();
-        random.output();
+        random.print();
     }
 }
