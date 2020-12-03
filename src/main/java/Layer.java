@@ -21,6 +21,11 @@ public class Layer {
         biases.initRandom();
     }
 
+    public void initWithMatrices(Matrix weights, Matrix biases){
+        this.weights = weights;
+        this.biases = biases;
+    }
+
 
 
 
