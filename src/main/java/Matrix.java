@@ -24,24 +24,6 @@ public class Matrix {
         matrix = new double[rows][columns];
     }
 
-    public void output(){
-        for(double[] row : matrix){
-            for(double val : row){
-                System.out.print(val + ", ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void initNumbers( ){
-        for(int x=0; x<rows; x++){
-            for(int y=0; y<columns; y++){
-                matrix[x][y] = (double) x+y+1;
-
-            }
-        }
-    }
-
     public Matrix dotProduct(Matrix b){
        double[][] matrixB = b.getRaw();
        int bRows = matrixB.length, bColumns = matrixB[0].length;
@@ -81,6 +63,24 @@ public class Matrix {
         }
 
         return new Matrix(output);
+    }
+
+    public void initNumbers(){
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<columns; y++){
+                matrix[x][y] = (double) x+y+1;
+
+            }
+        }
+    }
+
+    public void output(){
+        for(double[] row : matrix){
+            for(double val : row){
+                System.out.print(val + ", ");
+            }
+            System.out.println();
+        }
     }
 
     public double[][] getRaw(){

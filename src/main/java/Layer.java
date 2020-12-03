@@ -4,7 +4,18 @@
  * @project NN-Perceptron
  */
 public class Layer {
-    Matrix inputs = new Matrix(0,0);
-    Matrix weights = new Matrix(16, 1);
-    Matrix biases = new Matrix(16, 1);
+    int inputs, nodes;
+    Matrix weights;
+    Matrix biases;
+
+    Layer(int inputs, int nodes){
+        this.inputs = inputs;
+        this.nodes = nodes;
+    }
+
+
+
+
+
+
 }
