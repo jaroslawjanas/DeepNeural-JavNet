@@ -13,7 +13,13 @@ public class Layer {
         this.nodes = nodes;
     }
 
+    public void initRandom(){
+        weights = new Matrix(inputs, nodes);
+        weights.initRandom();
 
+        biases = new Matrix(nodes, 1);
+        biases.initRandom();
+    }
 
 
 

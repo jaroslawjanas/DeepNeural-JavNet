@@ -69,7 +69,20 @@ public class Matrix {
         for(int x=0; x<rows; x++){
             for(int y=0; y<columns; y++){
                 matrix[x][y] = (double) x+y+1;
+            }
+        }
+    }
 
+    public void initRandom(){
+        initRandom(-1, 1);
+    }
+
+    public void initRandom(double min, double max){
+        double range =  max-min;
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<columns; y++){
+                double rand = Math.random() * range + min;
+                matrix[x][y] = rand;
             }
         }
     }

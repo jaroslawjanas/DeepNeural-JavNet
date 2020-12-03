@@ -19,5 +19,9 @@ public class Main {
         };
 
         Matrix inputMatrix = new Matrix(testInputs);
+
+        Matrix random = new Matrix(3, 3);
+        random.initRandom();
+        random.output();
     }
 }
