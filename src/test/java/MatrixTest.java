@@ -27,11 +27,23 @@ public class MatrixTest {
     };
 
     @Test
-    public void newMatrix(){
+    public void newMatrixWithArray(){
         Matrix m = new Matrix(a);
         Assert.assertArrayEquals(a, m.getRaw());
         Assert.assertEquals(a.length, m.getRows());
         Assert.assertEquals(a[0].length, m.getColumns());
+    }
+
+    @Test
+    public void initNumbers(){
+        Matrix m = new Matrix(10,1);
+        m.initNumbers();
+
+        double[][] mArr = m.getRaw();
+
+        Assert.assertEquals(10, mArr.length);
+        Assert.assertEquals(1, mArr[0].length);
+        Assert.assertEquals(10, mArr[9][0], 0.0001);
     }
 
     @Test
@@ -45,22 +57,16 @@ public class MatrixTest {
         Matrix matrixA = new Matrix(a);
         Matrix matrixB = new Matrix(b);
 
-        Matrix matrixProduct = matrixA.dotProduct(matrixB);
+        Matrix matrixProduct = null;
+        try {
+            matrixProduct = matrixA.dotProduct(matrixB);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Assert.assertArrayEquals(product, matrixProduct.getRaw());
         Assert.assertEquals(matrixA.getRows(), matrixProduct.getRows());
         Assert.assertEquals(matrixB.getColumns(), matrixProduct.getColumns());
-    }
-
-    @Test
-    public void invalidDotProduct(){
-        Matrix matrixA = new Matrix(2,7);
-        matrixA.initNumbers();
-        Matrix matrixB = new Matrix(5, 4);
-        matrixB.initNumbers();
-
-        Matrix matrixProduct = matrixA.dotProduct(matrixB);
-        Assert.assertNull(matrixProduct);
     }
 
     @Test
@@ -74,19 +80,13 @@ public class MatrixTest {
         Matrix matrixA = new Matrix(a);
         Matrix matrixC = new Matrix(c);
 
-        Matrix matrixSum = matrixA.add(matrixC);
-
+        Matrix matrixSum = null;
+        try {
+            matrixSum = matrixA.add(matrixC);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Assert.assertNotNull(matrixSum);
         Assert.assertArrayEquals(sum, matrixSum.getRaw());
-    }
-
-    @Test
-    public void invalidAdd(){
-        Matrix matrixA = new Matrix(3,3);
-        matrixA.initNumbers();
-        Matrix matrixB = new Matrix(1, 1);
-        matrixB.initNumbers();
-
-        Matrix matrixSum = matrixA.add(matrixB);
-        Assert.assertNull(matrixSum);
     }
 }

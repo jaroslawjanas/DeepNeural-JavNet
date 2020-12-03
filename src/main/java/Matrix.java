@@ -24,15 +24,15 @@ public class Matrix {
         matrix = new double[rows][columns];
     }
 
-    public Matrix dotProduct(Matrix b){
-       double[][] matrixB = b.getRaw();
-       int bRows = matrixB.length, bColumns = matrixB[0].length;
+    public Matrix dotProduct(Matrix b) throws Exception {
+        double[][] matrixB = b.getRaw();
+        int bRows = matrixB.length, bColumns = matrixB[0].length;
 
-       if(columns != bRows){
-           return null;
-       }
+        if(columns != bRows){
+            throw new Exception("Cannot multiply incompatible matrices");
+        }
 
-       double[][] output = new double[rows][bColumns];
+        double[][] output = new double[rows][bColumns];
 
 //       https://www.programiz.com/java-programming/examples/multiply-matrix-function
         for(int i = 0; i < rows; i++) {
@@ -43,19 +43,19 @@ public class Matrix {
             }
         }
 //        -----------
-    return new Matrix(output);
+        return new Matrix(output);
     }
 
-    public Matrix add(Matrix b){
+    public Matrix add(Matrix b) throws Exception {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
-        
+
         if(rows != bRows || columns != bColumns){
-            return null;
+            throw new Exception("Cannot add incompatible matrices");
         }
 
         double[][] output = new double[rows][columns];
-        
+
         for(int r = 0; r<rows; r++){
             for(int c = 0; c<columns; c++){
                 output[r][c] = matrix[r][c] + matrixB[r][c];

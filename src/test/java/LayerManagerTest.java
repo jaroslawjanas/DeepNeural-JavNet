@@ -16,21 +16,19 @@ public class LayerManagerTest {
     }
 
     @Test
-    public void allLayerCount(){
-        System.out.println("TEST");
+    public void allLayersCount(){
         int allLayerCount = manager.getLayers().size();
-        System.out.println(allLayerCount);
         Assert.assertEquals(6, allLayerCount);
     }
 
     @Test
-    public void layerInitRandom(){
+    public void allLayersInitRandom(){
         manager.initAllNumbers();
         Layer layer = manager.getLayers().get(0);
         double [][] weights = layer.getWeights().getRaw();
         double [][] biases = layer.getBiases().getRaw();
 
-        Assert.assertEquals(1, (int) weights[0][0]);
-        Assert.assertEquals(1, (int) biases[0][0]);
+        Assert.assertEquals(1, weights[0][0], 0.0001);
+        Assert.assertEquals(1, biases[0][0], 0.0001);
     }
 }

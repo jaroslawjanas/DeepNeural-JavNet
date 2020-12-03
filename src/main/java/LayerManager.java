@@ -49,6 +49,10 @@ public class LayerManager {
         }
     }
 
+//    public Matrix evaluate(Matrix inputs){
+//
+//    }
+
     public ArrayList<Layer> getLayers(){
         return layers;
     }
