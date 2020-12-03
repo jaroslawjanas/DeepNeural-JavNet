@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -26,8 +25,6 @@ public class MatrixTest {
             {4, 5, 6},
             {7, 8, 9}
     };
-
-    @Before
 
     @Test
     public void newMatrix(){

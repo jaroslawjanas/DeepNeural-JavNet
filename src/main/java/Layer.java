@@ -4,9 +4,9 @@
  * @project NN-Perceptron
  */
 public class Layer {
-    int inputs, nodes;
-    Matrix weights;
-    Matrix biases;
+    private int inputs, nodes;
+    private Matrix weights;
+    private Matrix biases;
 
     Layer(int inputs, int nodes){
         this.inputs = inputs;
@@ -21,12 +21,25 @@ public class Layer {
         biases.initRandom();
     }
 
+    public void initNumbers(){
+        weights = new Matrix(inputs, nodes);
+        weights.initNumbers();
+
+        biases = new Matrix(nodes, 1);
+        biases.initNumbers();
+    }
+
     public void initWithMatrices(Matrix weights, Matrix biases){
         this.weights = weights;
         this.biases = biases;
     }
 
+    public Matrix getWeights(){
+        return weights;
+    }
 
-
+    public Matrix getBiases(){
+        return biases;
+    }
 
 }
