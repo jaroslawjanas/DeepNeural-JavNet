@@ -4,29 +4,26 @@
  * @project NN-Perceptron
  */
 public class Layer {
-    private final int inputCount, nodeCount;
     private Matrix weights;
     private Matrix biases;
     private Matrix inputs;
 
-    Layer(int inputCount, int nodeCount){
-        this.inputCount = inputCount;
-        this.nodeCount = nodeCount;
+    Layer(int nodeCount, int inputCount){
+        weights = new Matrix(nodeCount, inputCount);
+        biases = new Matrix(nodeCount, 1);
     }
 
-    public void initRandom(){
-        weights = new Matrix(nodeCount, inputCount);
-        weights.initRandom();
+    public void initRandom(double min, double max){
+        weights.initRandom(min, max);
+        biases.initRandom(min, max);
 
-        biases = new Matrix(nodeCount, 1);
-        biases.initRandom();
+    }
+    public void initRandom(){
+        initRandom(-1, 1);
     }
 
     public void initNumbers(){
-        weights = new Matrix(nodeCount, inputCount);
         weights.initNumbers();
-
-        biases = new Matrix(nodeCount, 1);
         biases.initNumbers();
     }
 

@@ -19,17 +19,21 @@ public class LayerManager {
 //        there is no input layer since it's simply a vector
 //        processed by the hidden layer
         for(int i=0; i<hiddenLayerCount+1; i++){
+            System.out.println("Layer No. " + i);
             if(i==0){
+                System.out.println("First layer");
 //                first hidden layer
-                Layer layer = new Layer(inputSize, layerSize);
+                Layer layer = new Layer(layerSize, inputSize);
                 layers.add(layer);
             }
             else if(i==hiddenLayerCount){
+                System.out.println("Output layer");
 //                last output layer
-                Layer layer = new Layer(layerSize, outputSize);
+                Layer layer = new Layer(outputSize, layerSize);
                 layers.add(layer);
             }
             else {
+                System.out.println("Hidden layer");
 //                hidden layers
                 Layer layer = new Layer(layerSize, layerSize);
                 layers.add(layer);
@@ -37,9 +41,13 @@ public class LayerManager {
         }
     }
 
-    public void initAllRandom(){
+    public  void initAllRandom(){
+        initAllRandom(-1, 1);
+    }
+
+    public void initAllRandom(double min, double max){
         for(Layer layer : layers){
-            layer.initRandom();
+            layer.initRandom(min, max);
         }
     }
 
@@ -49,9 +57,14 @@ public class LayerManager {
         }
     }
 
-//    public Matrix evaluate(Matrix inputs){
-//
-//    }
+    public Matrix evaluateAll(Matrix inputs) throws Exception {
+        Matrix outputs = inputs;
+        for(Layer layer : layers) {
+            layer.setInputs(outputs);
+            outputs = layer.evaluate();
+        }
+        return outputs;
+    }
 
     public ArrayList<Layer> getLayers(){
         return layers;

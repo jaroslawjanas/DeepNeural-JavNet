@@ -4,11 +4,11 @@
  * @project NN-Perceptron
  */
 public class Main {
-    public static void main(String[] args) throws Exception {
-        int inputs = 5;
-        int layers = 1;
-        int layerSize = 3;
-        int outputs = 2;
+    public static void main(String[] args) {
+        int inputSize = 5;
+        int hiddenLayerCount = 20;
+        int layerSize = 16;
+        int outputSize = 6;
 
         double[][] testInputs = {
                 {2},
@@ -18,6 +18,13 @@ public class Main {
                 {7}
         };
 
-        LayerManager manager = new LayerManager(inputs, layers, layerSize, outputs);
+        try {
+            LayerManager manager = new LayerManager(inputSize, hiddenLayerCount, layerSize, outputSize);
+            manager.initAllRandom();
+            Matrix results = manager.evaluateAll(new Matrix(testInputs));
+            results.print();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

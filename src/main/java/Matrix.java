@@ -29,6 +29,10 @@ public class Matrix {
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
         if(columns != bRows){
+            System.out.println("matrixA: ");
+            this.print();
+            System.out.println("matrixB: ");
+            b.print();
             throw new Exception("Cannot multiply incompatible matrices");
         }
 
@@ -51,7 +55,8 @@ public class Matrix {
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
         if(rows != bRows || columns != bColumns){
-            throw new Exception("Cannot add incompatible matrices");
+            throw new Exception("Cannot add incompatible matrices"
+                    + "[" + rows +" x " + columns + "][" + bRows + " x " + bColumns + "]");
         }
 
         double[][] output = new double[rows][columns];

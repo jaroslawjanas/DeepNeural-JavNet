@@ -13,7 +13,7 @@ public class LayerTest {
 
     @Before
     public void setup() {
-        layer = new Layer(2, 10);
+        layer = new Layer(10, 2);
     }
 
     @Test
