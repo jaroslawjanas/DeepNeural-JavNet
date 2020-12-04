@@ -28,7 +28,7 @@ public class Matrix {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
-        if(columns != bRows){
+        if (columns != bRows) {
             System.out.println("matrixA: ");
             this.print();
             System.out.println("matrixB: ");
@@ -39,7 +39,7 @@ public class Matrix {
         double[][] output = new double[rows][bColumns];
 
 //       https://www.programiz.com/java-programming/examples/multiply-matrix-function
-        for(int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < bColumns; j++) {
                 for (int k = 0; k < columns; k++) {
                     output[i][j] += matrix[i][k] * matrixB[k][j];
@@ -54,15 +54,15 @@ public class Matrix {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
-        if(rows != bRows || columns != bColumns){
+        if (rows != bRows || columns != bColumns) {
             throw new Exception("Cannot add incompatible matrices"
-                    + "[" + rows +" x " + columns + "][" + bRows + " x " + bColumns + "]");
+                    + "[" + rows + " x " + columns + "][" + bRows + " x " + bColumns + "]");
         }
 
         double[][] output = new double[rows][columns];
 
-        for(int r = 0; r<rows; r++){
-            for(int c = 0; c<columns; c++){
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
                 output[r][c] = matrix[r][c] + matrixB[r][c];
             }
         }
@@ -70,38 +70,38 @@ public class Matrix {
         return new Matrix(output);
     }
 
-    public void initNumbers(){
-        for(int x=0; x<rows; x++){
-            for(int y=0; y<columns; y++){
-                matrix[x][y] = (double) x+y+1;
+    public void initNumbers() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                matrix[x][y] = (double) x + y + 1;
             }
         }
     }
 
-    public void initRandom(){
+    public void initRandom() {
         initRandom(-1, 1);
     }
 
-    public void initRandom(double min, double max){
-        double range =  max-min;
-        for(int x=0; x<rows; x++){
-            for(int y=0; y<columns; y++){
+    public void initRandom(double min, double max) {
+        double range = max - min;
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
                 double rand = Math.random() * range + min;
                 matrix[x][y] = rand;
             }
         }
     }
 
-    public void print(){
-        for(double[] row : matrix){
-            for(double val : row){
+    public void print() {
+        for (double[] row : matrix) {
+            for (double val : row) {
                 System.out.print(val + ", ");
             }
             System.out.println();
         }
     }
 
-    public double[][] getRaw(){
+    public double[][] getRaw() {
         return matrix;
     }
 

@@ -20,14 +20,14 @@ public class MatrixTest {
             {22, 1, 3, 42}
     };
 
-    private double [][] c = {
+    private double[][] c = {
             {1, 2, 3},
             {4, 5, 6},
             {7, 8, 9}
     };
 
     @Test
-    public void newMatrixWithArray(){
+    public void newMatrixWithArray() {
         Matrix m = new Matrix(a);
         Assert.assertArrayEquals(a, m.getRaw());
         Assert.assertEquals(a.length, m.getRows());
@@ -35,8 +35,8 @@ public class MatrixTest {
     }
 
     @Test
-    public void initNumbers(){
-        Matrix m = new Matrix(10,1);
+    public void initNumbers() {
+        Matrix m = new Matrix(10, 1);
         m.initNumbers();
 
         double[][] mArr = m.getRaw();
@@ -47,7 +47,7 @@ public class MatrixTest {
     }
 
     @Test
-    public void dotProduct(){
+    public void dotProduct() {
         double[][] product = {
                 {-29, 161, -45, 75},
                 {-200, -37, 9, -354},
@@ -70,7 +70,7 @@ public class MatrixTest {
     }
 
     @Test
-    public void add(){
+    public void add() {
         double[][] sum = {
                 {-4, 10, 3},
                 {8, 7, -3},

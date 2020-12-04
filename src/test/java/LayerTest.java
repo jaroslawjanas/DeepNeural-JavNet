@@ -17,7 +17,7 @@ public class LayerTest {
     }
 
     @Test
-    public void evaluateTest(){
+    public void evaluateTest() {
         layer.initNumbers();
 
         double[][] inputs = {{1}, {2}};

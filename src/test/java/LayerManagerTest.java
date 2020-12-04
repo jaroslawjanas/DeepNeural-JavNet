@@ -20,24 +20,24 @@ public class LayerManagerTest {
     }
 
     @Test
-    public void allLayersCount(){
+    public void allLayersCount() {
         int allLayerCount = manager.getLayers().size();
         Assert.assertEquals(6, allLayerCount);
     }
 
     @Test
-    public void allLayersInitNumbers(){
+    public void allLayersInitNumbers() {
         manager.initAllNumbers();
         Layer layer = manager.getLayers().get(0);
-        double [][] weights = layer.getWeights().getRaw();
-        double [][] biases = layer.getBiases().getRaw();
+        double[][] weights = layer.getWeights().getRaw();
+        double[][] biases = layer.getBiases().getRaw();
 
         Assert.assertEquals(1, weights[0][0], 0.0001);
         Assert.assertEquals(1, biases[0][0], 0.0001);
     }
 
     @Test
-    public void oneLayerEvaluation(){
+    public void oneLayerEvaluation() {
         double[][] inputs = {
                 {0.001},
                 {-1}
@@ -45,7 +45,7 @@ public class LayerManagerTest {
         Matrix input = new Matrix(inputs);
 
         try {
-            manager = new LayerManager(2,1, 3, 2);
+            manager = new LayerManager(2, 1, 3, 2);
         } catch (Exception e) {
             e.printStackTrace();
         }
