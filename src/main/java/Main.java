@@ -1,3 +1,4 @@
+import ndata.DataImporter;
 import nnetwork.LayerManager;
 import nnetwork.Matrix;
 
@@ -30,5 +31,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        DataImporter dataI = new DataImporter("temp/dataset.txt");
+        dataI.print();
     }
 }
