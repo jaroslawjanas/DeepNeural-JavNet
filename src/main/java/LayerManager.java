@@ -19,21 +19,17 @@ public class LayerManager {
 //        there is no input layer since it's simply a vector
 //        processed by the hidden layer
         for(int i=0; i<hiddenLayerCount+1; i++){
-            System.out.println("Layer No. " + i);
             if(i==0){
-                System.out.println("First layer");
 //                first hidden layer
                 Layer layer = new Layer(layerSize, inputSize);
                 layers.add(layer);
             }
             else if(i==hiddenLayerCount){
-                System.out.println("Output layer");
 //                last output layer
                 Layer layer = new Layer(outputSize, layerSize);
                 layers.add(layer);
             }
             else {
-                System.out.println("Hidden layer");
 //                hidden layers
                 Layer layer = new Layer(layerSize, layerSize);
                 layers.add(layer);
