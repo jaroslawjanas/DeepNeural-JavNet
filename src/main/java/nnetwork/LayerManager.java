@@ -1,3 +1,5 @@
+package nnetwork;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class LayerManager {
     private final ArrayList<Layer> layers = new ArrayList<>();
 
-    LayerManager(int inputSize, int hiddenLayerCount, int layerSize, int outputSize) throws Exception {
+    public LayerManager(int inputSize, int hiddenLayerCount, int layerSize, int outputSize) throws Exception {
 //        if layerCount is less than 1, no hidden layers, only output;
         if (hiddenLayerCount < 1) {
             throw new Exception("layerCount must be at least 1");

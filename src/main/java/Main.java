@@ -1,3 +1,6 @@
+import nnetwork.LayerManager;
+import nnetwork.Matrix;
+
 /**
  * @author Jaroslaw Janas
  * @date 02/12/20

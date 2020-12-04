@@ -1,3 +1,5 @@
+package nnetwork;
+
 /**
  * @author Jaroslaw Janas
  * @date 02/12/20
