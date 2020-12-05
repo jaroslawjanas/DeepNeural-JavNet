@@ -91,4 +91,18 @@ public class MatrixTest {
         Assert.assertNotNull(matrixSum);
         Assert.assertArrayEquals(sum, matrixSum.getRaw());
     }
+
+    @Test
+    public void transpose() {
+        double[][] transposedC = {
+                {1, 4, 7},
+                {2, 5, 8},
+                {3, 6, 9}
+        };
+        Matrix matrixC = new Matrix(c);
+        Matrix output = matrixC.transpose();
+
+        Assert.assertArrayEquals(transposedC, output.getRaw());
+
+    }
 }

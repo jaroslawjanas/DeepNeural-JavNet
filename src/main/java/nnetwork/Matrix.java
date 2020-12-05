@@ -69,6 +69,16 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public Matrix transpose() {
+        double[][] output = new double[columns][rows];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[c][r] = matrix[r][c];
+            }
+        }
+        return new Matrix(output);
+    }
+
     public void initNumbers() {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
