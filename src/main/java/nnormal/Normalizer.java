@@ -30,15 +30,15 @@ public class Normalizer {
         }
     }
 
-    public ArrayList<ArrayList<Double>> normalize(ArrayList<ArrayList<Double>> data){
+    public ArrayList<ArrayList<Double>> normalize(ArrayList<ArrayList<Double>> data) {
         ArrayList<ArrayList<Double>> normalizedData = new ArrayList<>();
         int i = 0;
-        for (ArrayList<Double> column : data){
+        for (ArrayList<Double> column : data) {
             double cMin = getDataMin().get(i);
             double cMax = getDataMax().get(i);
 
             ArrayList<Double> normC = new ArrayList<>();
-            for(Double element : column){
+            for (Double element : column) {
                 Double normElement = ((element - cMin) / (cMax - cMin)) * (upperLimit - lowerLimit) + lowerLimit;
                 normC.add(normElement);
             }

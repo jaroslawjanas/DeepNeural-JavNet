@@ -18,23 +18,26 @@ public class NormalizerTest {
     public void setup() {
         data = new ArrayList<>();
         ArrayList<Double> column = new ArrayList<>();
-        column.add(-123.3434); column.add(122.11); column.add(43.4124); column.add(0.0);
+        column.add(-123.3434);
+        column.add(122.11);
+        column.add(43.4124);
+        column.add(0.0);
         data.add(column);
     }
 
     @Test
-    public void newNormalizer(){
-        Normalizer normalizer = new Normalizer(data, 0,0);
+    public void newNormalizer() {
+        Normalizer normalizer = new Normalizer(data, 0, 0);
         ArrayList<Double> maxData = normalizer.getDataMax();
         ArrayList<Double> minData = normalizer.getDataMin();
 
-        Assert.assertEquals(122.11 , maxData.get(0), 0.0001);
+        Assert.assertEquals(122.11, maxData.get(0), 0.0001);
         Assert.assertEquals(-123.3434, minData.get(0), 0.0001);
     }
 
     @Test
-    public void normalizationInRange(){
-        Normalizer normalizer = new Normalizer(data, -2,2);
+    public void normalizationInRange() {
+        Normalizer normalizer = new Normalizer(data, -2, 2);
         ArrayList<ArrayList<Double>> normalizedData = normalizer.normalize(data);
 
         Assert.assertEquals(-2, normalizedData.get(0).get(0), 0.00001); //-123.3434
@@ -43,13 +46,16 @@ public class NormalizerTest {
     }
 
     @Test
-    public void normalizationOutOfRange(){
-        Normalizer normalizer = new Normalizer(data, -2,2);
+    public void normalizationOutOfRange() {
+        Normalizer normalizer = new Normalizer(data, -2, 2);
 
 //        out of range data
         ArrayList<ArrayList<Double>> outOfRangeData = new ArrayList<>();
         ArrayList<Double> column = new ArrayList<>();
-        column.add(-200.0); column.add(0.0); column.add(500.0);;
+        column.add(-200.0);
+        column.add(0.0);
+        column.add(500.0);
+        ;
         outOfRangeData.add(column);
 
         ArrayList<ArrayList<Double>> normalizedData = normalizer.normalize(outOfRangeData);

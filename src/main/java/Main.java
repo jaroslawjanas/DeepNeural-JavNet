@@ -51,8 +51,8 @@ public class Main {
 //        note that the same normalizer is used
         testingData = normalizer.normalize(testingData);
 
-        for(ArrayList<Double> column : trainingData){
-            for(Double element : column){
+        for (ArrayList<Double> column : trainingData) {
+            for (Double element : column) {
                 System.out.print(element + "] [");
             }
             System.out.println("");

@@ -11,7 +11,7 @@ public class Data {
     private ArrayList<ArrayList<Double>> data;
     private ArrayList<String> classes;
 
-    public Data(String filePath, String delimiter , int classColumn) {
+    public Data(String filePath, String delimiter, int classColumn) {
         try {
             DataImporter importedData = new DataImporter(filePath);
             DataFormatter formatter = new DataFormatter(importedData.getLines());

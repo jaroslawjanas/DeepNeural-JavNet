@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * @project NN-Perceptron
  */
 public class DataImporter {
-
     ArrayList<String> lines = new ArrayList<>();
 
     DataImporter(String filePath) {
