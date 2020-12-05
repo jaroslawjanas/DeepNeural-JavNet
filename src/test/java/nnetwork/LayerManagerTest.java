@@ -39,7 +39,7 @@ public class LayerManagerTest {
     }
 
     @Test
-    public void oneLayerEvaluation() {
+    public void oneLayerPropagate() {
         double[][] inputs = {
                 {0.001},
                 {-1}
@@ -55,7 +55,7 @@ public class LayerManagerTest {
         manager.initAllNumbers();
         Matrix output = null;
         try {
-            output = manager.evaluateAll(input);
+            output = manager.propagate(input);
         } catch (Exception e) {
             e.printStackTrace();
         }

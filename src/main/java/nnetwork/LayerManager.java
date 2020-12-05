@@ -53,7 +53,7 @@ public class LayerManager {
         }
     }
 
-    public Matrix evaluateAll(Matrix inputs) throws Exception {
+    public Matrix propagate(Matrix inputs) throws Exception {
         Matrix outputs = inputs;
         for (Layer layer : layers) {
             layer.setInputs(outputs);
