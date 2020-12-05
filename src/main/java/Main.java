@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         String filePath = "temp/train.txt";
+        String delimiter = "\t";
+        int classColumn = 3;
 //        int inputSize = 5;
 //        int hiddenLayerCount = 1000;
 //        int layerSize = 500;
@@ -36,14 +38,14 @@ public class Main {
 
 //        formatter.printColumns();
 
-        Data trainFile = new Data(filePath, "\t", 3);
+        Data trainFile = new Data(filePath, delimiter, 3);
         ArrayList<String> trainingClasses = trainFile.getClasses();
         ArrayList<ArrayList<Double>> trainingData = trainFile.getData();
 
         Normalizer normalizer = new Normalizer(trainingData, -1, 1);
         trainingData = normalizer.normalize(trainingData);
 
-        Data testFile = new Data(filePath, "\t", 3);
+        Data testFile = new Data(filePath, delimiter, classColumn);
         ArrayList<String> testingClasses = testFile.getClasses();
         ArrayList<ArrayList<Double>> testingData = testFile.getData();
 //        note that the same normalizer is used
