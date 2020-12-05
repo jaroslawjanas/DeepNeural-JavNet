@@ -15,7 +15,7 @@ public class DataFormatter {
     private final ArrayList<ArrayList<String>> columns = new ArrayList<>();
     private ArrayList<ArrayList<Double>> columnsDouble;
 
-    public DataFormatter(ArrayList<String> lines) {
+    DataFormatter(ArrayList<String> lines) {
         this.lines = lines;
     }
 
@@ -81,17 +81,5 @@ public class DataFormatter {
 
     public void setDelimiter(String delimiter) {
         this.delimiter = delimiter;
-    }
-
-    public void printColumns() {
-        for (ArrayList<String> column : columns) {
-            for (String s : column) {
-                System.out.println(s);
-            }
-        }
-    }
-
-    public ArrayList<ArrayList<String>> getColumns() {
-        return columns;
     }
 }

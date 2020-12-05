@@ -12,7 +12,7 @@ public class DataImporter {
 
     ArrayList<String> lines = new ArrayList<>();
 
-    public DataImporter(String filePath) {
+    DataImporter(String filePath) {
         FileReader fr = null;
         try {
             fr = new FileReader(filePath);

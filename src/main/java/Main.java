@@ -1,7 +1,5 @@
-import ndata.DataFormatter;
-import ndata.DataImporter;
-import nnetwork.LayerManager;
-import nnetwork.Matrix;
+import ndata.Data;
+import nnormal.Normalizer;
 
 import java.util.ArrayList;
 
@@ -12,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String[] args) {
+        String filePath = "temp/train.txt";
 //        int inputSize = 5;
 //        int hiddenLayerCount = 1000;
 //        int layerSize = 500;
@@ -34,24 +33,27 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        try {
-            DataImporter importedData = new DataImporter("temp/dataset.txt");
-            DataFormatter formatter = new DataFormatter(importedData.getLines());
-            formatter.setDelimiter("\t");
-            formatter.format();
-            ArrayList<String> classes = formatter.extractClassColumn(3);
-            formatter.parseToDouble();
-            ArrayList<ArrayList<Double>> data = formatter.getColumnsDouble();
 
-            for (ArrayList<Double> column : data) {
-                for (Double element : column) {
-                    System.out.print(element + " ");
-                }
-                System.out.println("");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 //        formatter.printColumns();
+
+        Data trainFile = new Data(filePath, "\t", 3);
+        ArrayList<String> trainingClasses = trainFile.getClasses();
+        ArrayList<ArrayList<Double>> trainingData = trainFile.getData();
+
+        Normalizer normalizer = new Normalizer(trainingData, -1, 1);
+        trainingData = normalizer.normalize(trainingData);
+
+        Data testFile = new Data(filePath, "\t", 3);
+        ArrayList<String> testingClasses = testFile.getClasses();
+        ArrayList<ArrayList<Double>> testingData = testFile.getData();
+//        note that the same normalizer is used
+        testingData = normalizer.normalize(testingData);
+
+        for(ArrayList<Double> column : trainingData){
+            for(Double element : column){
+                System.out.print(element + "] [");
+            }
+            System.out.println("");
+        }
     }
 }
