@@ -29,9 +29,9 @@ public class Matrix {
 
         if (columns != bRows) {
             System.out.println("matrixA: ");
-            this.print();
+            System.out.println(this);
             System.out.println("matrixB: ");
-            b.print();
+            System.out.println(b);
             throw new Exception("Cannot multiply incompatible matrices");
         }
 
@@ -91,13 +91,15 @@ public class Matrix {
         }
     }
 
-    public void print() {
+    public String toString() {
+        StringBuilder str = new StringBuilder();
         for (double[] row : matrix) {
             for (double val : row) {
-                System.out.print(val + ", ");
+                str.append(val).append(", ");
             }
-            System.out.println();
+            str.append("\n");
         }
+        return str.toString();
     }
 
     public double[][] getRaw() {

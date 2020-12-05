@@ -1,4 +1,6 @@
-import ndata.Data;
+import ndata.DataFile;
+import nnetwork.LayerManager;
+import nnetwork.Matrix;
 import nnormal.Normalizer;
 
 import java.util.ArrayList;
@@ -13,49 +15,50 @@ public class Main {
         String filePath = "temp/train.txt";
         String delimiter = "\t";
         int classColumn = 3;
-//        int inputSize = 5;
-//        int hiddenLayerCount = 1000;
-//        int layerSize = 500;
-//        int outputSize = 6;
-//
-//        double[][] testInputs = {
-//                {-2},
-//                {-2},
-//                {-2},
-//                {-2},
-//                {-2}
-//        };
-//
-//        try {
-//            LayerManager manager = new LayerManager(inputSize, hiddenLayerCount, layerSize, outputSize);
-//            manager.initAllRandom();
-////            manager.initAllNumbers();
-//            Matrix results = manager.evaluateAll(new Matrix(testInputs));
-//            results.print();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        int inputSize = 9;
+        int hiddenLayerCount = 1;
+        int layerSize = 16;
+        int outputSize = 3;
+
+
+        LayerManager layerManager = null;
+        try {
+            layerManager = new LayerManager(inputSize, hiddenLayerCount, layerSize, outputSize);
+            layerManager.initAllRandom();
+//            manager.initAllNumbers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        formatter.printColumns();
 
-        Data trainFile = new Data(filePath, delimiter, 3);
+        DataFile trainFile = new DataFile(filePath, delimiter, 3);
         ArrayList<String> trainingClasses = trainFile.getClasses();
         ArrayList<ArrayList<Double>> trainingData = trainFile.getData();
 
-        Normalizer normalizer = new Normalizer(trainingData, -1, 1);
-        trainingData = normalizer.normalize(trainingData);
+//        Normalizer normalizer = new Normalizer(trainingData, -1, 1);
+//        trainingData = normalizer.normalize(trainingData);
 
-        Data testFile = new Data(filePath, delimiter, classColumn);
+        DataFile testFile = new DataFile(filePath, delimiter, classColumn);
         ArrayList<String> testingClasses = testFile.getClasses();
         ArrayList<ArrayList<Double>> testingData = testFile.getData();
 //        note that the same normalizer is used
-        testingData = normalizer.normalize(testingData);
+//        testingData = normalizer.normalize(testingData);
 
-        for (ArrayList<Double> column : trainingData) {
-            for (Double element : column) {
-                System.out.print(element + "] [");
+        //training
+        for (int row = 0; row < trainingData.get(0).size(); row++) {
+
+            double[][] rowData = new double[trainingData.size()][1];
+            for (int col = 0; col < trainingData.size(); col++) {
+                rowData[col][0] = trainingData.get(col).get(row);
             }
-            System.out.println("");
+            Matrix input = new Matrix(rowData);
+            try {
+                Matrix ouput = layerManager.evaluateAll(input);
+                System.out.println(ouput);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

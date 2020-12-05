@@ -7,11 +7,11 @@ import java.util.ArrayList;
  * @date 05/12/20
  * @project NN-Perceptron
  */
-public class Data {
+public class DataFile {
     private ArrayList<ArrayList<Double>> data;
     private ArrayList<String> classes;
 
-    public Data(String filePath, String delimiter, int classColumn) {
+    public DataFile(String filePath, String delimiter, int classColumn) {
         try {
             DataImporter importedData = new DataImporter(filePath);
             DataFormatter formatter = new DataFormatter(importedData.getLines());
