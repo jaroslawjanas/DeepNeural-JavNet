@@ -55,7 +55,7 @@ public class Main {
             Matrix input = new Matrix(rowData);
             try {
                 assert layerManager != null;
-                Matrix ouput = layerManager.propagate(input);
+                Matrix ouput = layerManager.feedForward(input);
                 System.out.println(ouput);
             } catch (Exception e) {
                 e.printStackTrace();

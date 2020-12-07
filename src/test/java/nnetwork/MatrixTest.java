@@ -130,7 +130,7 @@ public class MatrixTest {
         double multiplyValue = -2;
         Matrix matrixA = new Matrix(a);
         double[][] multipliedA = {
-                {10, -16, 0},
+                {10, -16, -0.0},
                 {-8, -4, 18},
                 {-4, -46, 8}
         };

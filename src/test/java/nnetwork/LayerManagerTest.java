@@ -39,7 +39,7 @@ public class LayerManagerTest {
     }
 
     @Test
-    public void oneLayerPropagate() {
+    public void oneLayerFeedForward() {
         double[][] inputs = {
                 {0.001},
                 {-1}
@@ -55,7 +55,7 @@ public class LayerManagerTest {
         manager.initAllNumbers();
         Matrix output = null;
         try {
-            output = manager.propagate(input);
+            output = manager.feedForward(input);
         } catch (Exception e) {
             e.printStackTrace();
         }
