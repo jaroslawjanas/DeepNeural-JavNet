@@ -55,7 +55,6 @@ public class MatrixTest {
                 {-200, -37, 9, -354},
                 {-155, 246, 6, 64}
         };
-
         Matrix matrixA = new Matrix(a);
         Matrix matrixB = new Matrix(b);
 
@@ -88,8 +87,29 @@ public class MatrixTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Assert.assertNotNull(matrixSum);
         Assert.assertArrayEquals(sum, matrixSum.getRaw());
+    }
+
+    @Test
+    public void addScalar() {
+        double addValue = 2.0;
+        Matrix matrixC = new Matrix(c);
+        double[][] addedC = {
+                {3, 4, 5},
+                {6, 7, 8},
+                {9, 10, 11}
+        };
+        Matrix matrixSum = null;
+        try {
+            matrixSum = matrixC.add(addValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertNotNull(matrixSum);
+        Assert.assertArrayEquals(addedC, matrixSum.getRaw());
     }
 
     @Test
@@ -103,6 +123,19 @@ public class MatrixTest {
         Matrix output = matrixC.transpose();
 
         Assert.assertArrayEquals(transposedC, output.getRaw());
+    }
 
+    @Test
+    public void multiply() {
+        double multiplyValue = -2;
+        Matrix matrixA = new Matrix(a);
+        double[][] multipliedA = {
+                {10, -16, 0},
+                {-8, -4, 18},
+                {-4, -46, 8}
+        };
+        Matrix output = matrixA.multiply(multiplyValue);
+
+        Assert.assertArrayEquals(multipliedA, output.getRaw());
     }
 }

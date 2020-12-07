@@ -49,6 +49,22 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public Matrix multiply(double b) {
+        double[][] output = new double[rows][columns];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[r][c] = matrix[r][c] * b;
+            }
+        }
+        return new Matrix(output);
+    }
+
+    public Matrix add(double b) throws Exception {
+        Matrix matrixB = new Matrix(rows, columns);
+        matrixB.initWith(b);
+        return this.add(matrixB);
+    }
+
     public Matrix add(Matrix b) throws Exception {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
@@ -77,6 +93,14 @@ public class Matrix {
             }
         }
         return new Matrix(output);
+    }
+
+    public void initWith(double a) {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                matrix[x][y] = a;
+            }
+        }
     }
 
     public void initNumbers() {
