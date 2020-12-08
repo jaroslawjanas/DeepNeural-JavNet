@@ -123,6 +123,16 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public Matrix sigmoid() {
+        double[][] output = new double[rows][columns];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[r][c] = 1 / (1 + Math.pow(Math.E, -matrix[r][c]));;
+            }
+        }
+        return new Matrix(output);
+    }
+
     public Matrix sigmoidDerivative() {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {

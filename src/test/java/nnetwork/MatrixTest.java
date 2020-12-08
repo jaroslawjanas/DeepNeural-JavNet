@@ -33,6 +33,10 @@ public class MatrixTest {
             {3, 4}
     };
 
+    private final double[][] e = {
+            {1, -1, 2, -2}
+    };
+
     @Test
     public void newMatrixWithArray() {
         Matrix m = new Matrix(a);
@@ -186,7 +190,7 @@ public class MatrixTest {
     }
 
     @Test
-    public void hadamardProduct(){
+    public void hadamardProduct() {
         Matrix matrixA = new Matrix(a);
         Matrix matrixB = new Matrix(c);
         double[][] expected = {
@@ -211,7 +215,22 @@ public class MatrixTest {
     }
 
     @Test
-    public void sigmoidDerivative(){
+    public void sigmoid() {
+        Matrix matrixE = new Matrix(e);
+        double[][] expected = {
+                {0.7310585786300048792512, 0.2689414213699951207488, 0.8807970779778824440597, 0.1192029220221175559403}
+        };
+
+        Matrix output = matrixE.sigmoid();
+
+        Assert.assertEquals(expected[0][0], output.getRaw()[0][0], 0.000000000000001);
+        Assert.assertEquals(expected[0][1], output.getRaw()[0][1], 0.000000000000001);
+        Assert.assertEquals(expected[0][2], output.getRaw()[0][2], 0.000000000000001);
+        Assert.assertEquals(expected[0][3], output.getRaw()[0][3], 0.000000000000001);
+    }
+
+    @Test
+    public void sigmoidDerivative() {
         Matrix matrixD = new Matrix(d);
         double[][] expected = {
                 {0.1966119332414818525374, 0.1049935854035065173486},
@@ -220,7 +239,7 @@ public class MatrixTest {
 
         Matrix output = matrixD.sigmoidDerivative();
 
-        Assert.assertEquals(expected[0][0], output.getRaw()[0][0], 0.0000000000000001);
-        Assert.assertEquals(expected[1][1], output.getRaw()[1][1], 0.0000000000000001);
+        Assert.assertEquals(expected[0][0], output.getRaw()[0][0], 0.000000000000001);
+        Assert.assertEquals(expected[1][1], output.getRaw()[1][1], 0.000000000000001);
     }
 }

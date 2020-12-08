@@ -45,13 +45,7 @@ public class Layer {
             throw new Exception("A layer output must only have 1 column");
         }
 
-        double[][] bwInputs = biasedWeightedInputs.getRaw();
-        double[][] outputArray = new double[bwInputs.length][1];
-        for (int i = 0; i < bwInputs.length; i++) {
-            outputArray[i][0] = sigmoid(bwInputs[i][0]);
-        }
-
-        return new Matrix(outputArray);
+        return biasedWeightedInputs.sigmoid();
     }
 
     private double sigmoid(double x) {
