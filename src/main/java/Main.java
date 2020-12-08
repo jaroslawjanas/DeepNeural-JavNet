@@ -45,7 +45,28 @@ public class Main {
 //        note that the same normalizer is used
 //        testingData = normalizer.normalize(testingData);
 
-        //training
+//        //training
+//        for (int row = 0; row < trainingData.get(0).size(); row++) {
+//
+//            double[][] rowData = new double[trainingData.size()][1];
+//            for (int col = 0; col < trainingData.size(); col++) {
+//                rowData[col][0] = trainingData.get(col).get(row);
+//            }
+//            Matrix input = new Matrix(rowData);
+//            try {
+//                assert layerManager != null;
+//                Matrix predicted = layerManager.feedForward(input);
+////                mock
+//                double[][] expected = {{1}, {0}, {0}};
+//                layerManager.backPropagate(predicted, new Matrix(expected), 0.1);
+//                System.out.println(predicted);
+////                break;
+////                ----
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         for (int row = 0; row < trainingData.get(0).size(); row++) {
 
             double[][] rowData = new double[trainingData.size()][1];
@@ -53,13 +74,22 @@ public class Main {
                 rowData[col][0] = trainingData.get(col).get(row);
             }
             Matrix input = new Matrix(rowData);
-            try {
-                assert layerManager != null;
-                Matrix ouput = layerManager.feedForward(input);
-                System.out.println(ouput);
-            } catch (Exception e) {
-                e.printStackTrace();
+            for(int i = 0; i< 10; i++) {
+                try {
+                    assert layerManager != null;
+                    Matrix predicted = layerManager.feedForward(input);
+//                mock
+                    double[][] expected = {{1}, {0}, {0}};
+                    layerManager.backPropagate(predicted, new Matrix(expected), 0.4);
+                    System.out.println(predicted.subtract(new Matrix(expected)));
+                    System.out.println("----------------");
+//                break;
+//                ----
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            break;
         }
     }
 }

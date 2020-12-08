@@ -10,22 +10,27 @@ import org.junit.Test;
  */
 public class MatrixTest {
 
-    private double[][] a = {
+    private final double[][] a = {
             {-5, 8, 0},
             {4, 2, -9},
             {2, 23, -4}
     };
 
-    private double[][] b = {
+    private final double[][] b = {
             {1, -13, 9, 1},
             {-3, 12, 0, 10},
             {22, 1, 3, 42}
     };
 
-    private double[][] c = {
+    private final double[][] c = {
             {1, 2, 3},
             {4, 5, 6},
             {7, 8, 9}
+    };
+
+    private final double[][] d = {
+            {1, 2},
+            {3, 4}
     };
 
     @Test
@@ -50,13 +55,13 @@ public class MatrixTest {
 
     @Test
     public void dotProduct() {
-        double[][] product = {
+        Matrix matrixA = new Matrix(a);
+        Matrix matrixB = new Matrix(b);
+        double[][] expected = {
                 {-29, 161, -45, 75},
                 {-200, -37, 9, -354},
                 {-155, 246, 6, 64}
         };
-        Matrix matrixA = new Matrix(a);
-        Matrix matrixB = new Matrix(b);
 
         Matrix matrixProduct = null;
         try {
@@ -65,21 +70,20 @@ public class MatrixTest {
             e.printStackTrace();
         }
 
-        Assert.assertArrayEquals(product, matrixProduct.getRaw());
+        Assert.assertArrayEquals(expected, matrixProduct.getRaw());
         Assert.assertEquals(matrixA.getRows(), matrixProduct.getRows());
         Assert.assertEquals(matrixB.getColumns(), matrixProduct.getColumns());
     }
 
     @Test
     public void add() {
-        double[][] sum = {
+        Matrix matrixA = new Matrix(a);
+        Matrix matrixC = new Matrix(c);
+        double[][] expected = {
                 {-4, 10, 3},
                 {8, 7, -3},
                 {9, 31, 5}
         };
-
-        Matrix matrixA = new Matrix(a);
-        Matrix matrixC = new Matrix(c);
 
         Matrix matrixSum = null;
         try {
@@ -89,14 +93,14 @@ public class MatrixTest {
         }
 
         Assert.assertNotNull(matrixSum);
-        Assert.assertArrayEquals(sum, matrixSum.getRaw());
+        Assert.assertArrayEquals(expected, matrixSum.getRaw());
     }
 
     @Test
     public void addScalar() {
         double addValue = 2.0;
         Matrix matrixC = new Matrix(c);
-        double[][] addedC = {
+        double[][] expected = {
                 {3, 4, 5},
                 {6, 7, 8},
                 {9, 10, 11}
@@ -109,12 +113,12 @@ public class MatrixTest {
         }
 
         Assert.assertNotNull(matrixSum);
-        Assert.assertArrayEquals(addedC, matrixSum.getRaw());
+        Assert.assertArrayEquals(expected, matrixSum.getRaw());
     }
 
     @Test
     public void transpose() {
-        double[][] transposedC = {
+        double[][] expected = {
                 {1, 4, 7},
                 {2, 5, 8},
                 {3, 6, 9}
@@ -122,20 +126,101 @@ public class MatrixTest {
         Matrix matrixC = new Matrix(c);
         Matrix output = matrixC.transpose();
 
-        Assert.assertArrayEquals(transposedC, output.getRaw());
+        Assert.assertArrayEquals(expected, output.getRaw());
     }
 
     @Test
     public void multiply() {
         double multiplyValue = -2;
         Matrix matrixA = new Matrix(a);
-        double[][] multipliedA = {
+        double[][] expected = {
                 {10, -16, -0.0},
                 {-8, -4, 18},
                 {-4, -46, 8}
         };
         Matrix output = matrixA.multiply(multiplyValue);
 
-        Assert.assertArrayEquals(multipliedA, output.getRaw());
+        Assert.assertArrayEquals(expected, output.getRaw());
+    }
+
+    @Test
+    public void subtract() {
+        Matrix matrixA = new Matrix(a);
+        Matrix matrixC = new Matrix(c);
+        double[][] expected = {
+                {-6, 6, -3},
+                {0, -3, -15},
+                {-5, 15, -13}
+        };
+
+        Matrix output = null;
+        try {
+            output = matrixA.subtract(matrixC);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertNotNull(output);
+        Assert.assertArrayEquals(expected, output.getRaw());
+    }
+
+    @Test
+    public void subtractScalar() {
+        double subtractValue = 10.0;
+        Matrix matrixA = new Matrix(a);
+        double[][] expected = {
+                {-15, -2, -10},
+                {-6, -8, -19},
+                {-8, 13, -14}
+        };
+
+        Matrix output = null;
+        try {
+            output = matrixA.subtract(subtractValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertNotNull(output);
+        Assert.assertArrayEquals(expected, output.getRaw());
+    }
+
+    @Test
+    public void hadamardProduct(){
+        Matrix matrixA = new Matrix(a);
+        Matrix matrixB = new Matrix(c);
+        double[][] expected = {
+                {-5, 16, 0},
+                {16, 10, -54},
+                {14, 184, -36}
+        };
+
+        Matrix output1 = null;
+        Matrix output2 = null;
+        try {
+            output1 = matrixA.hadamardProduct(matrixB);
+            output2 = matrixB.hadamardProduct(matrixA);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertNotNull(output1);
+        Assert.assertNotNull(output2);
+        Assert.assertArrayEquals(expected, output1.getRaw());
+        Assert.assertArrayEquals(output1.getRaw(), output2.getRaw());
+    }
+
+    @Test
+    public void sigmoidDerivative(){
+        Matrix matrixD = new Matrix(d);
+        double[][] expected = {
+                {0.1966119332414818525374, 0.1049935854035065173486},
+                {0.04517665973091213264936, 0.01766270621329111642156}
+        };
+
+        Matrix output = matrixD.sigmoidDerivative();
+
+        Assert.assertEquals(expected[0][0], output.getRaw()[0][0], 0.0000000000000001);
+        Assert.assertEquals(expected[1][1], output.getRaw()[1][1], 0.0000000000000001);
     }
 }

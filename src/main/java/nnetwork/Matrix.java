@@ -28,11 +28,8 @@ public class Matrix {
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
         if (columns != bRows) {
-            System.out.println("matrixA: ");
-            System.out.println(this);
-            System.out.println("matrixB: ");
-            System.out.println(b);
-            throw new Exception("Cannot multiply incompatible matrices");
+            throw new Exception("Cannot multiply incompatible matrices "
+                    + "[" + rows + " x " + columns + "][" + bRows + " x " + bColumns + "]");
         }
 
         double[][] output = new double[rows][bColumns];
@@ -46,6 +43,26 @@ public class Matrix {
             }
         }
 //        -----------
+        return new Matrix(output);
+    }
+
+    public Matrix hadamardProduct(Matrix b) throws Exception {
+        double[][] matrixB = b.getRaw();
+        int bRows = matrixB.length, bColumns = matrixB[0].length;
+
+        if (rows != bRows || columns != bColumns) {
+            throw new Exception("Cannot apply hadamard product to matrices of different sizes "
+                    + "[" + rows + " x " + columns + "][" + bRows + " x " + bColumns + "]");
+        }
+
+        double[][] output = new double[rows][columns];
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[r][c] = matrix[r][c] * matrixB[r][c];
+            }
+        }
+
         return new Matrix(output);
     }
 
@@ -70,7 +87,7 @@ public class Matrix {
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
         if (rows != bRows || columns != bColumns) {
-            throw new Exception("Cannot add incompatible matrices"
+            throw new Exception("Cannot add incompatible matrices "
                     + "[" + rows + " x " + columns + "][" + bRows + " x " + bColumns + "]");
         }
 
@@ -85,6 +102,17 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public Matrix subtract(double b) throws Exception {
+        Matrix matrixB = new Matrix(rows, columns);
+        matrixB.initWith(b);
+        return this.subtract(matrixB);
+    }
+
+    public Matrix subtract(Matrix b) throws Exception {
+        Matrix negativeB = b.multiply(-1);
+        return this.add(negativeB);
+    }
+
     public Matrix transpose() {
         double[][] output = new double[columns][rows];
         for (int r = 0; r < rows; r++) {
@@ -92,6 +120,17 @@ public class Matrix {
                 output[c][r] = matrix[r][c];
             }
         }
+        return new Matrix(output);
+    }
+
+    public Matrix sigmoidDerivative() {
+        double[][] output = new double[rows][columns];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[r][c] = Math.pow(Math.E, -matrix[r][c]) / Math.pow(1 + Math.pow(Math.E, -matrix[r][c]), 2);
+            }
+        }
+
         return new Matrix(output);
     }
 

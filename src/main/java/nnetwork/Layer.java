@@ -9,10 +9,11 @@ public class Layer {
     private Matrix weights;
     private Matrix biases;
     private Matrix inputs;
+    private Matrix outputBeforeSigmoid;
 
     Layer(int nodeCount, int inputCount) {
-        weights = new Matrix(nodeCount, inputCount);
-        biases = new Matrix(nodeCount, 1);
+        setWeights(new Matrix(nodeCount, inputCount));
+        setBiases(new Matrix(nodeCount, 1));
     }
 
     public void initRandom(double min, double max) {
@@ -31,13 +32,14 @@ public class Layer {
     }
 
     public void initWithMatrices(Matrix weights, Matrix biases) {
-        this.weights = weights;
-        this.biases = biases;
+        this.setWeights(weights);
+        this.setBiases(biases);
     }
 
     public Matrix evaluate() throws Exception {
         Matrix weightedInputs = weights.dotProduct(inputs);
         Matrix biasedWeightedInputs = weightedInputs.add(biases);
+        outputBeforeSigmoid = biasedWeightedInputs;
 
         if (biasedWeightedInputs.getColumns() != 1) {
             throw new Exception("A layer output must only have 1 column");
@@ -57,6 +59,10 @@ public class Layer {
         return 1 / (1 + Math.pow(Math.E, -x));
     }
 
+    public Matrix getInputs() {
+        return inputs;
+    }
+
     public void setInputs(Matrix inputs) {
         this.inputs = inputs;
     }
@@ -69,4 +75,15 @@ public class Layer {
         return biases;
     }
 
+    public void setWeights(Matrix weights) {
+        this.weights = weights;
+    }
+
+    public void setBiases(Matrix biases) {
+        this.biases = biases;
+    }
+
+    public Matrix getOutputBeforeSigmoid() {
+        return outputBeforeSigmoid;
+    }
 }
