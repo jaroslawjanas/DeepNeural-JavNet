@@ -1,0 +1,81 @@
+ \begin{array}{l}
+\text{Functions}\\
+C_{0} \ =\ \left( a^{( L)} \ -\ y\right)^{2}\\
+a^{( L)} \ =\ \sigma \left( z^{( L)}\right)\\
+z^{( L)} =\ w^{( L)} \ a^{( L-1)} +b^{( L)}\\
+\sigma ( x) =\frac{1}{1+e^{-x}}\\
+\\
+\text{Derivatives of Functions}\\
+\\
+\frac{\partial C_{0}}{\partial a^{( L)}} =2\left( a^{( L)} -y\right)\\
+\\
+\frac{\partial a^{( L)}}{\partial z^{( L)}} =\sigma \prime \left( z^{( L)}\right)\\
+\\
+\sigma \prime =\frac{e^{-x}}{\left( 1+e^{-x}\right)^{2}}\\
+\\
+\frac{\partial z^{( L)}}{\partial w^{( L)}} =a^{( L-1)}\\
+\\
+\frac{\partial z^{( L)}}{\partial a^{( L-1)}} =w^{( L)}\\
+\\
+\frac{\partial z^{( L)}}{\partial b^{( L)}} =1\\
+\\
+\text{---------------- Output Layer ----------------}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L)}} =\ \frac{\partial C_{0}}{\partial a^{( L)}} \ \frac{\partial a^{( L)}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial w^{( L)}}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L)}} \ =\frac{\partial C_{0}}{\partial a^{( L)}} \ \frac{\partial a^{( L)}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial b^{( L)}}\\
+\\
+\frac{\partial C_{0}}{\partial a^{( L-1)}} =\frac{\partial C_{0}}{\partial a^{( L)}} \ \frac{\partial a^{( L)}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial a^{( L-1)}}\\
+\\
+\text{Note the common element}\\
+\\
+\frac{\partial C_{0}}{\partial z^{( L)}} \ =\frac{\partial C_{0}}{\partial a^{( L)}} \ \frac{\partial a^{( L)}}{\partial z^{( L)}}\\
+\\
+\text{Hence}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L)}} =\ \frac{\partial C_{0}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial w^{( L)}}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L)}} \ =\frac{\partial C_{0}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial b^{( L)}}\\
+\\
+\frac{\partial C_{0}}{\partial a^{( L-1)}} =\frac{\partial C_{0}}{\partial z^{( L)}} \ \frac{\partial z^{( L)}}{\partial a^{( L-1)}}\\
+\\
+\text{Substituting for derivatives from "Derivatives of Functions"}\\
+\\
+\frac{\partial C_{0}}{\partial z^{( L)}} \ =\ 2\left( a^{( L)} -y\right) \ \sigma \prime \left( z^{( L)}\right)\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L)}} \ =\ \frac{\partial C_{0}}{\partial z^{( L)}} \ a^{( L-1)}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L)}} =\frac{\partial C_{0}}{\partial z^{( L)}} \ 1\\
+\\
+\frac{\partial C_{0}}{\partial a^{( L-1)}} =\frac{\partial C_{0}}{\partial z^{( L)}} \ w^{( L)}\\
+\\
+\text{---------------- Hidden Layers ----------------}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-1)}} =\ \frac{\partial C_{0}}{\partial a^{( L-1)}} \ \frac{\partial a^{( L-1)}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial w^{( L-1)}}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L-1)}} =\ \frac{\partial C_{0}}{\partial a^{( L-1)}} \ \frac{\partial a^{( L-1)}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial b^{( L-1)}}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-2)}} =\ \frac{\partial C_{0}}{\partial a^{( L-1)}} \ \frac{\partial a^{( L-1)}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial w^{( L-2)}}\\
+\\
+\text{Note the common element}\\
+\\
+\frac{\partial C_{0}}{\partial z^{( L-1)}} =\frac{\partial C_{0}}{\partial a^{( L-1)}} \ \frac{\partial a^{( L-1)}}{\partial z^{( L-1)}}\\
+\\
+\text{Hence}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-1)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial w^{( L-1)}}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L-1)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial b^{( L-1)}}\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-2)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ \frac{\partial z^{( L-1)}}{\partial w^{( L-2)}}\\
+\\
+\text{Substituting for derivatives from "Derivatives of Functions" }\\
+\\
+\frac{\partial C_{0}}{\partial z^{( L-1)}} =\ \frac{\partial C_{0}}{\partial a^{( L-1)}} \ \sigma \prime \left( z^{( L-1)}\right)\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-1)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ a^{( L-2)}\\
+\\
+\frac{\partial C_{0}}{\partial b^{( L-1)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ 1\\
+\\
+\frac{\partial C_{0}}{\partial w^{( L-2)}} =\ \frac{\partial C_{0}}{\partial z^{( L-1)}} \ w^{( L-1)}\\
+\end{array}

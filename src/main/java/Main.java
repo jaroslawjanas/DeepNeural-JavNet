@@ -74,7 +74,7 @@ public class Main {
                 rowData[col][0] = trainingData.get(col).get(row);
             }
             Matrix input = new Matrix(rowData);
-            for(int i = 0; i< 10; i++) {
+            for(int i = 0; i< 1000; i++) {
                 try {
                     assert layerManager != null;
                     Matrix predicted = layerManager.feedForward(input);

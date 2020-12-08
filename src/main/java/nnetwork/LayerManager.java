@@ -65,20 +65,22 @@ public class LayerManager {
 
     public void backPropagate(Matrix predicted, Matrix expected, double learningRate) {
 
-        Matrix deltaCostFunction_PrevActivation = null;
+        Matrix dC0_daLm1 = null;
+
         for(int l=layers.size()-1; l>=0; l--){
             Layer currentLayer = layers.get(l);
 
+            Matrix currentWeights = currentLayer.getWeights();
+            Matrix currentInputs = currentLayer.getInputs();
+            Matrix currentBiases = currentLayer.getBiases();
+            Matrix currentOutputBeforeSigmoid = currentLayer.getOutputBeforeSigmoid();
+
             //if output layer
             if(l == layers.size()-1) {
-                Matrix currentWeights = currentLayer.getWeights();
-                Matrix currentInputs = currentLayer.getInputs();
-                Matrix currentBiases = currentLayer.getBiases();
-                Matrix outputBeforeSigmoid = currentLayer.getOutputBeforeSigmoid();
 
                 try {
                     Matrix dC0_daL = predicted.subtract(expected).multiply(2);
-                    Matrix daL_dzL = outputBeforeSigmoid.sigmoidDerivative();
+                    Matrix daL_dzL = currentOutputBeforeSigmoid.sigmoidDerivative();
 //                    base used for all other equations
                     Matrix dC0_dzL = dC0_daL.hadamardProduct(daL_dzL);
 
@@ -87,21 +89,45 @@ public class LayerManager {
                     Matrix updatedWeights = currentWeights.subtract(dC0_dwL.multiply(learningRate));
                     currentLayer.setWeights(updatedWeights);
 
-//                    //biases
-//                    Matrix dC0_dbL = dC0_dzL; //because dC0_dzL * 1 = dC0_dzL
-//                    Matrix updatedBiases = currentBiases.add(dC0_dbL);
-//                    currentLayer.setBiases(updatedBiases);
-//
-//                    //next (going backwards) layer
-//                    Matrix dC0_daLm1 = dC0_dzL.hadamardProduct(currentWeights);
-//                    deltaCostFunction_PrevActivation = dC0_daLm1;
+//                    biases
+                    Matrix dC0_dbL = dC0_dzL.multiply(learningRate);
+//                    because dC0_dzL * 1 = dC0_dzL; don't forget about learning rate
+
+                    Matrix updatedBiases = currentBiases.add(dC0_dbL);
+                    currentLayer.setBiases(updatedBiases);
+
+//                    next (going backwards) layer
+                    dC0_daLm1 = currentWeights.transpose().dotProduct(dC0_dzL);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             else {
-                break;
+                try {
+//                    base
+                    Matrix dam1_zm1 = currentOutputBeforeSigmoid.sigmoidDerivative();
+                    assert dC0_daLm1 != null;
+                    Matrix dC0_dzm1 = dC0_daLm1.hadamardProduct(dam1_zm1);
+
+//                    weights
+                    Matrix daLm1_dwLm1 = dC0_dzm1.dotProduct(currentInputs.transpose());
+                    Matrix updatedWeights = currentWeights.subtract(daLm1_dwLm1.multiply(learningRate));
+                    currentLayer.setWeights(updatedWeights);
+
+//                    biases
+                    Matrix updatedBiases = dC0_dzm1.multiply(learningRate);
+                    currentLayer.setBiases(updatedBiases);
+
+//                    next (going backwards) layer,
+//                    don't calculate daLm1_daLm2 if last layer (going backwards)
+                    if(l != 0){
+                        dC0_daLm1 = currentWeights.transpose().dotProduct(dC0_daLm1);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
