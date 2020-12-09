@@ -158,7 +158,7 @@ public class Main {
 
 //                cost
                 double cost = predicted.subtract(expected).elementWisePower(2.0).elementWiseSum();
-                System.out.println("\t\t\t\t\t\t" + ANSI_BLUE + "Cost: " + cost + ANSI_RESET);
+                System.out.println("\t\t\t\t\t\t" + ANSI_YELLOW + "Cost: " + cost + ANSI_RESET);
 
 //                back propagate
                 layerManager.backPropagate(predicted, expected, learningRate);
@@ -173,8 +173,9 @@ public class Main {
         trainOutputFile.write(trainingOutput.toString());
 
 //        testing
+        int correct = 0, wrong=0;
         StringBuilder testingOutput = new StringBuilder();
-        System.out.println("\n" + ANSI_BLUE + "Testing using " + testFilePath + ANSI_RESET);
+        System.out.println("\n" + ANSI_YELLOW + "Testing using " + testFilePath + ANSI_RESET);
         for (int row = 0; row < testingData.get(0).size(); row++) {
 
             double[][] rowData = new double[testingData.size()][1];
@@ -193,10 +194,11 @@ public class Main {
 //                check accuracy
                 String predictedClass = uniqueClasses.get(position[0]);
                 String expectedClass = testingClasses.get(row);
-//                colored console output
                 if (predictedClass.equalsIgnoreCase(expectedClass)) {
+                    correct++;
                     System.out.print(ANSI_GREEN);
                 } else {
+                    wrong++;
                     System.out.print(ANSI_RED);
                 }
                 String singleTestingOutput = "Predicted: " + predictedClass + "  " + "Expected: " + expectedClass;
@@ -209,9 +211,16 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
 //        save testing output prediction to a file
         DataExporter testOutputFile = new DataExporter("data/output", "testOutput.txt");
         testOutputFile.write(testingOutput.toString());
 
+//        stats
+        System.out.println("\n" + ANSI_YELLOW + "Statistics" + ANSI_RESET);
+        System.out.println(ANSI_WHITE + "Correct: " + ANSI_GREEN + correct + ANSI_RESET);
+        System.out.println(ANSI_WHITE + "Wrong: " + ANSI_RED + wrong + ANSI_RESET);
+        double accuracy = (double) correct/(correct+wrong) * 100;
+        System.out.println(ANSI_WHITE + "Accuracy: " + ANSI_YELLOW + accuracy + "%" + ANSI_RESET);
     }
 }
