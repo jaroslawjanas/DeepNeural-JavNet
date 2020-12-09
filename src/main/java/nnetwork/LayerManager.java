@@ -23,7 +23,7 @@ public class LayerManager {
 //        processed by the hidden layer
         for (int i = 0; i < hiddenLayerCount + 1; i++) {
 
-            if(i == 0 && i == hiddenLayerCount){
+            if (i == 0 && i == hiddenLayerCount) {
 //                if first and last layer
                 Layer layer = new Layer(outputSize, inputSize);
                 layers.add(layer);
@@ -74,66 +74,84 @@ public class LayerManager {
         return outputs;
     }
 
+/*
+    The mathematical reference and explanation can be found in the maths folder
+    in the maths.html and treeDiagram.html files
+    
+    The variables follow the following format
+    d = symbol partial derivative
+    _ = division
+    m = minus (e.g. Lm1 = L-1)
+    uppercase = going to superscript e.g dc0/daLm1 where (Lm1) is the superscript of value a, _ exits superscript
+
+    Additionally, all numbers that are NOT in superscript (daLm1) such as dc0 are indexes
+
+    --------------------------
+
+    Matrix mathematics is based on https://sudeepraja.github.io/Neural/
+ */
+
     public void backPropagate(Matrix predicted, Matrix expected, double learningRate) {
 
-        Matrix dC0_daLm1 = null;
+        Matrix dc0_daLm1 = null; //equivalent of dc0_daLm2 if in a hidden layer
 
-        for(int l=layers.size()-1; l>=0; l--){
+        for (int l = layers.size() - 1; l >= 0; l--) {
             Layer currentLayer = layers.get(l);
 
-            Matrix currentWeights = currentLayer.getWeights();
-            Matrix currentInputs = currentLayer.getInputs();
-            Matrix currentBiases = currentLayer.getBiases();
-            Matrix currentOutputBeforeSigmoid = currentLayer.getOutputBeforeSigmoid();
+            Matrix currentWeights = currentLayer.getWeights(); //wL
+            Matrix currentInputs = currentLayer.getInputs(); //aLm1
+            Matrix currentBiases = currentLayer.getBiases(); //bL
+            Matrix currentOutputBeforeSigmoid = currentLayer.getOutputBeforeSigmoid(); //zL
 
             //if output layer
-            if(l == layers.size()-1) {
+            if (l == layers.size() - 1) {
 
                 try {
-                    Matrix dC0_daL = predicted.subtract(expected).multiply(2);
+//                    base/common
+                    Matrix dc0_daL = predicted.subtract(expected).multiply(2);
                     Matrix daL_dzL = currentOutputBeforeSigmoid.sigmoidDerivative();
-//                    base used for all other equations
-                    Matrix dC0_dzL = dC0_daL.hadamardProduct(daL_dzL);
+                    Matrix dc0_dzL = dc0_daL.hadamardProduct(daL_dzL);
 
 //                    weights
-                    Matrix dC0_dwL = dC0_dzL.dotProduct(currentInputs.transpose());
-                    Matrix updatedWeights = currentWeights.subtract(dC0_dwL.multiply(learningRate));
+                    Matrix dc0_dwL = dc0_dzL.dotProduct(currentInputs.transpose());
+                    Matrix updatedWeights = currentWeights.subtract(dc0_dwL.multiply(learningRate));
                     currentLayer.setWeights(updatedWeights);
 
 //                    biases
-                    Matrix dC0_dbL = dC0_dzL.multiply(learningRate);
-//                    because dC0_dzL * 1 = dC0_dzL; don't forget about learning rate
+                    Matrix dc0_dbL = dc0_dzL.multiply(learningRate);
+//                    because dc0_dzL * 1 = dc0_dzL; don't forget about learning rate
 
-                    Matrix updatedBiases = currentBiases.add(dC0_dbL);
+                    Matrix updatedBiases = currentBiases.add(dc0_dbL);
                     currentLayer.setBiases(updatedBiases);
 
 //                    next (going backwards) layer
-                    dC0_daLm1 = currentWeights.transpose().dotProduct(dC0_dzL);
+                    dc0_daLm1 = currentWeights.transpose().dotProduct(dc0_dzL);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 try {
-//                    base
-                    Matrix dam1_zm1 = currentOutputBeforeSigmoid.sigmoidDerivative();
-                    assert dC0_daLm1 != null;
-                    Matrix dC0_dzm1 = dC0_daLm1.hadamardProduct(dam1_zm1);
+//                    base/common
+                    Matrix daLm1_dzLm1 = currentOutputBeforeSigmoid.sigmoidDerivative();
+                    assert dc0_daLm1 != null;
+                    Matrix dc0_dzLm1 = dc0_daLm1.hadamardProduct(daLm1_dzLm1);
 
 //                    weights
-                    Matrix daLm1_dwLm1 = dC0_dzm1.dotProduct(currentInputs.transpose());
-                    Matrix updatedWeights = currentWeights.subtract(daLm1_dwLm1.multiply(learningRate));
+                    Matrix dc0_dwLm1 = dc0_dzLm1.dotProduct(currentInputs.transpose()); //current inputs = aLm2
+                    Matrix updatedWeights = currentWeights.subtract(dc0_dwLm1.multiply(learningRate));
                     currentLayer.setWeights(updatedWeights);
 
 //                    biases
-                    Matrix updatedBiases = dC0_dzm1.multiply(learningRate);
+                    Matrix updatedBiases = dc0_dzLm1.multiply(learningRate);
                     currentLayer.setBiases(updatedBiases);
 
 //                    next (going backwards) layer,
 //                    don't calculate daLm1_daLm2 if last layer (going backwards)
-                    if(l != 0){
-                        dC0_daLm1 = currentWeights.transpose().dotProduct(dC0_daLm1);
+                    if (l != 0) {
+//                        equivalent of dc0_daLm2 if in a hidden layer
+//                        but a common variable name (with output layer) is required hence dc0_daLm1
+                        dc0_daLm1 = currentWeights.transpose().dotProduct(dc0_daLm1);
                     }
 
                 } catch (Exception e) {

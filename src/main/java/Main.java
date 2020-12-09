@@ -102,13 +102,11 @@ public class Main {
         try {
             layerManager = new LayerManager(trainingData.size(), hiddenLayerCount, layerSize, outputSize);
 
-            if(initWith){
+            if (initWith) {
                 layerManager.initAllWith(initWithValue);
-            }
-            else if(initRand){
+            } else if (initRand) {
                 layerManager.initAllRandom(initRandMin, initRandMax);
-            }
-            else{
+            } else {
                 throw new Exception("At least one initialization method must be chosen");
             }
         } catch (Exception e) {
@@ -173,7 +171,7 @@ public class Main {
         trainOutputFile.write(trainingOutput.toString());
 
 //        testing
-        int correct = 0, wrong=0;
+        int correct = 0, wrong = 0;
         StringBuilder testingOutput = new StringBuilder();
         System.out.println("\n" + ANSI_YELLOW + "Testing using " + testFilePath + ANSI_RESET);
         for (int row = 0; row < testingData.get(0).size(); row++) {
@@ -220,7 +218,7 @@ public class Main {
         System.out.println("\n" + ANSI_YELLOW + "Statistics" + ANSI_RESET);
         System.out.println(ANSI_WHITE + "Correct: " + ANSI_GREEN + correct + ANSI_RESET);
         System.out.println(ANSI_WHITE + "Wrong: " + ANSI_RED + wrong + ANSI_RESET);
-        double accuracy = (double) correct/(correct+wrong) * 100;
-        System.out.println(ANSI_WHITE + "Accuracy: " + ANSI_YELLOW + accuracy + "%" + ANSI_RESET);
+        double accuracy = (double) correct / (correct + wrong) * 100;
+        System.out.println(ANSI_WHITE + "Accuracy: " + ANSI_YELLOW + accuracy + " %" + ANSI_RESET);
     }
 }
