@@ -53,11 +53,6 @@ public class Layer {
         return biasedWeightedInputs.sigmoid();
     }
 
-    private double sigmoid(double x) {
-//        1/(1+e^-x)
-        return 1 / (1 + Math.pow(Math.E, -x));
-    }
-
     public Matrix getInputs() {
         return inputs;
     }
