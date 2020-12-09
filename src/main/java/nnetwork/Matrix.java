@@ -7,22 +7,27 @@ package nnetwork;
  */
 
 public class Matrix {
+//    Class for matrices
+
     private final double[][] matrix;
     private int rows = 0;
     private int columns = 0;
 
+//    init with an array
     public Matrix(double[][] matrix) {
         this.matrix = matrix;
         this.rows = matrix.length;
         this.columns = matrix[0].length;
     }
 
+//    init with a rows and columns
     public Matrix(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         matrix = new double[rows][columns];
     }
 
+//    dot product of two matrices
     public Matrix dotProduct(Matrix b) throws Exception {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
@@ -46,6 +51,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    hadmard product of two matrices
     public Matrix hadamardProduct(Matrix b) throws Exception {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
@@ -66,6 +72,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    raise each element to power of power
     public Matrix elementWisePower(double power) {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -77,6 +84,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    multiply by number b
     public Matrix multiply(double b) {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -87,12 +95,14 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    add element wise number b
     public Matrix add(double b) throws Exception {
         Matrix matrixB = new Matrix(rows, columns);
         matrixB.initWith(b);
         return this.add(matrixB);
     }
 
+//    add another matrix
     public Matrix add(Matrix b) throws Exception {
         double[][] matrixB = b.getRaw();
         int bRows = matrixB.length, bColumns = matrixB[0].length;
@@ -113,6 +123,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    sum all elements in the matrix to a single value
     public double elementWiseSum() {
         double sum = 0;
         for (int r = 0; r < rows; r++) {
@@ -124,17 +135,20 @@ public class Matrix {
         return sum;
     }
 
+//    subtract element wise using value b
     public Matrix subtract(double b) throws Exception {
         Matrix matrixB = new Matrix(rows, columns);
         matrixB.initWith(b);
         return this.subtract(matrixB);
     }
 
+//    subtract using a matrix
     public Matrix subtract(Matrix b) throws Exception {
         Matrix negativeB = b.multiply(-1);
         return this.add(negativeB);
     }
 
+//    flip
     public Matrix transpose() {
         double[][] output = new double[columns][rows];
         for (int r = 0; r < rows; r++) {
@@ -145,6 +159,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    apply the sigmoid function element wise
     public Matrix sigmoid() {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -156,6 +171,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    apply the sigmoid derivative function element wise
     public Matrix sigmoidDerivative() {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -167,6 +183,7 @@ public class Matrix {
         return new Matrix(output);
     }
 
+//    init this matrix with value a
     public Matrix initWith(double a) {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
@@ -176,6 +193,7 @@ public class Matrix {
         return this;
     }
 
+//    init with numbers - used for testing
     public Matrix initNumbers() {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
@@ -190,6 +208,7 @@ public class Matrix {
 
     }
 
+//    init in random range
     public Matrix initRandom(double min, double max) {
         double range = max - min;
         for (int x = 0; x < rows; x++) {
@@ -201,6 +220,7 @@ public class Matrix {
         return this;
     }
 
+//    get the position of the highest value
     public int[] highestValueIndex() {
         double highest = matrix[0][0];
         int[] position = {0, 0};
