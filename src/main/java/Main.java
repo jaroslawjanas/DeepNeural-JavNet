@@ -39,10 +39,12 @@ public class Main {
         int hiddenLayerCount = 1;
         int layerSize = 16;
         int outputSize;
-        boolean init0 = false;
+        boolean initWith = false;
+        double initWithValue = 0.0;
         boolean initRand = true;
         double initRandMin = -1.0;
         double initRandMax = -1.0;
+
 //        settings
         try {
             File settingsFile = new File("settings.properties");
@@ -57,7 +59,8 @@ public class Main {
             classColumn = Integer.parseInt(settings.getProperty("classColumn"));
             hiddenLayerCount = Integer.parseInt(settings.getProperty("hiddenLayerCount"));
             layerSize = Integer.parseInt(settings.getProperty("layerSize"));
-            init0 = Boolean.parseBoolean(settings.getProperty("init0"));
+            initWith = Boolean.parseBoolean(settings.getProperty("initWith"));
+            initWithValue = Double.parseDouble(settings.getProperty("initWithValue"));
             initRand = Boolean.parseBoolean(settings.getProperty("initRand"));
             initRandMin = Double.parseDouble(settings.getProperty("initRandMin"));
             initRandMax = Double.parseDouble(settings.getProperty("initRandMax"));
@@ -98,8 +101,8 @@ public class Main {
         try {
             layerManager = new LayerManager(trainingData.size(), hiddenLayerCount, layerSize, outputSize);
 
-            if(init0){
-                layerManager.initAllWith(0.0);
+            if(initWith){
+                layerManager.initAllWith(initWithValue);
             }
             else if(initRand){
                 layerManager.initAllRandom(initRandMin, initRandMax);
