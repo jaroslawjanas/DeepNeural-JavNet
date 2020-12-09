@@ -156,6 +156,10 @@ public class Main {
                 expectedArray[expectedIndex][0] = 1;
                 expected = new Matrix(expectedArray);
 
+//                cost
+                double cost = predicted.subtract(expected).elementWisePower(2.0).elementWiseSum();
+                System.out.println("\t\t\t\t\t\t" + ANSI_BLUE + "Cost: " + cost + ANSI_RESET);
+
 //                back propagate
                 layerManager.backPropagate(predicted, expected, learningRate);
 
