@@ -241,4 +241,37 @@ public class MatrixTest {
         Assert.assertEquals(expected[0][0], output.getRaw()[0][0], 0.000000000000001);
         Assert.assertEquals(expected[1][1], output.getRaw()[1][1], 0.000000000000001);
     }
+
+    @Test
+    public void elementWisePower() {
+        double powerValue = 2.0;
+        Matrix matrixD = new Matrix(d);
+        double[][] expected = {
+                {1, 4},
+                {9, 16}
+        };
+
+        Matrix output = matrixD.elementWisePower(powerValue);
+        Assert.assertArrayEquals(expected, output.getRaw());
+    }
+
+    @Test
+    public void highestValueIndex() {
+        Matrix matrixA = new Matrix(a);
+        int[] expected = {2, 1};
+
+        int[] output = matrixA.highestValueIndex();
+
+        Assert.assertArrayEquals(expected, output);
+    }
+
+    @Test
+    public void elementWiseSum() {
+        Matrix matrixD = new Matrix(d);
+        double epexted = 10.0;
+
+        double output = matrixD.elementWiseSum();
+
+        Assert.assertEquals(epexted, output, 0.000000000000001);
+    }
 }

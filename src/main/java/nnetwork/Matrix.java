@@ -66,6 +66,17 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public Matrix elementWisePower(double power) {
+        double[][] output = new double[rows][columns];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                output[r][c] = Math.pow(matrix[r][c], power);
+            }
+        }
+
+        return new Matrix(output);
+    }
+
     public Matrix multiply(double b) {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -102,6 +113,17 @@ public class Matrix {
         return new Matrix(output);
     }
 
+    public double elementWiseSum() {
+        double sum = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                sum += matrix[r][c];
+            }
+        }
+
+        return sum;
+    }
+
     public Matrix subtract(double b) throws Exception {
         Matrix matrixB = new Matrix(rows, columns);
         matrixB.initWith(b);
@@ -127,7 +149,8 @@ public class Matrix {
         double[][] output = new double[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                output[r][c] = 1 / (1 + Math.pow(Math.E, -matrix[r][c]));;
+                output[r][c] = 1 / (1 + Math.pow(Math.E, -matrix[r][c]));
+                ;
             }
         }
         return new Matrix(output);
@@ -178,13 +201,13 @@ public class Matrix {
         return this;
     }
 
-    public int[] highestValueIndex(){
+    public int[] highestValueIndex() {
         double highest = matrix[0][0];
-        int[] position = {0,0};
+        int[] position = {0, 0};
 
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
-                if(highest < matrix[x][y]){
+                if (highest < matrix[x][y]) {
                     highest = matrix[x][y];
                     position[0] = x;
                     position[1] = y;
