@@ -2,9 +2,13 @@ import ndata.DataFile;
 import nnetwork.LayerManager;
 import nnetwork.Matrix;
 import nnormal.Normalizer;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -30,15 +34,37 @@ public class Main {
         String trainFilePath = "data/train.txt";
         String testFilePath = "data/test.txt";
         String delimiter = "\t";
-        double learningRate = 1.5;
+        double learningRate = 1;
         int classColumn = 3;
-        int inputSize = 9;
         int hiddenLayerCount = 1;
         int layerSize = 16;
         int outputSize;
         boolean init0 = false;
-        boolean initrand = true;
+        boolean initRand = true;
+        double initRandMin = -1.0;
+        double initRandMax = -1.0;
+//        settings
+        try {
+            File settingsFile = new File("settings.properties");
+            InputStream inputStream = new FileInputStream(settingsFile);
+            Properties settings = new Properties();
+            settings.load(inputStream);
 
+            trainFilePath = settings.getProperty("trainFilePath");
+            testFilePath = settings.getProperty("testFilePath");
+            delimiter = settings.getProperty("delimiter").replaceAll("\"", "");
+            learningRate = Double.parseDouble(settings.getProperty("learningRate"));
+            classColumn = Integer.parseInt(settings.getProperty("classColumn"));
+            hiddenLayerCount = Integer.parseInt(settings.getProperty("hiddenLayerCount"));
+            layerSize = Integer.parseInt(settings.getProperty("layerSize"));
+            init0 = Boolean.parseBoolean(settings.getProperty("init0"));
+            initRand = Boolean.parseBoolean(settings.getProperty("initRand"));
+            initRandMin = Double.parseDouble(settings.getProperty("initRandMin"));
+            initRandMax = Double.parseDouble(settings.getProperty("initRandMax"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         DataFile trainFile = new DataFile(trainFilePath, delimiter, 3);
         ArrayList<String> trainingClasses = trainFile.getClasses();
@@ -70,13 +96,13 @@ public class Main {
 //        init the neural network
         LayerManager layerManager = null;
         try {
-            layerManager = new LayerManager(inputSize, hiddenLayerCount, layerSize, outputSize);
+            layerManager = new LayerManager(trainingData.size(), hiddenLayerCount, layerSize, outputSize);
 
             if(init0){
                 layerManager.initAllWith(0.0);
             }
-            else if(initrand){
-                layerManager.initAllRandom(-1.0, 1.0);
+            else if(initRand){
+                layerManager.initAllRandom(initRandMin, initRandMax);
             }
             else{
                 throw new Exception("At least one initialization method must be chosen");

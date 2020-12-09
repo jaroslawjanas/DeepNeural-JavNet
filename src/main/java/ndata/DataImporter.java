@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DataImporter {
     ArrayList<String> lines = new ArrayList<>();
 
-    DataImporter(String filePath) {
+     DataImporter(String filePath) {
         FileReader fr = null;
         try {
             fr = new FileReader(filePath);
@@ -29,10 +29,13 @@ public class DataImporter {
         }
     }
 
-    public void print() {
+    public String toString() {
+        StringBuilder str = new StringBuilder();
         for (String line : lines) {
-            System.out.println(line);
+            str.append(line);
+            str.append("\n");
         }
+        return str.toString();
     }
 
     public ArrayList<String> getLines() {
