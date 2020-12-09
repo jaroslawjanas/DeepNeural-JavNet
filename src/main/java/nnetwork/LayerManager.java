@@ -47,24 +47,28 @@ public class LayerManager {
         initAllRandom(-1, 1);
     }
 
+//    init all layer with random values in range of min max
     public void initAllRandom(double min, double max) {
         for (Layer layer : layers) {
             layer.initRandom(min, max);
         }
     }
 
+//    init all layers with all with numbers
     public void initAllNumbers() {
         for (Layer layer : layers) {
             layer.initNumbers();
         }
     }
 
+//    init all layers with a number
     public void initAllWith(double d) {
         for (Layer layer : layers) {
             layer.initWith(d);
         }
     }
 
+//    evaluate all layers
     public Matrix feedForward(Matrix inputs) throws Exception {
         Matrix outputs = inputs;
         for (Layer layer : layers) {

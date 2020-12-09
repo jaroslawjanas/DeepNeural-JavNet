@@ -16,6 +16,7 @@ public class Layer {
         setBiases(new Matrix(nodeCount, 1));
     }
 
+//    init all layers with random
     public void initRandom(double min, double max) {
         weights.initRandom(min, max);
         biases.initRandom(min, max);
@@ -26,11 +27,13 @@ public class Layer {
         initRandom(-1, 1);
     }
 
+//    init all layers with numbers
     public void initNumbers() {
         weights.initNumbers();
         biases.initNumbers();
     }
 
+//    init all matrices with a number D
     public void initWith(double d) {
         weights.initWith(d);
         biases.initWith(d);
@@ -41,6 +44,7 @@ public class Layer {
         this.setBiases(biases);
     }
 
+//    evaluate a layer weights * inputs + biases
     public Matrix evaluate() throws Exception {
         Matrix weightedInputs = weights.dotProduct(inputs);
         Matrix biasedWeightedInputs = weightedInputs.add(biases);
