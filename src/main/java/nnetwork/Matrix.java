@@ -144,27 +144,30 @@ public class Matrix {
         return new Matrix(output);
     }
 
-    public void initWith(double a) {
+    public Matrix initWith(double a) {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
                 matrix[x][y] = a;
             }
         }
+        return this;
     }
 
-    public void initNumbers() {
+    public Matrix initNumbers() {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
                 matrix[x][y] = (double) x + y + 1;
             }
         }
+        return this;
     }
 
-    public void initRandom() {
-        initRandom(-1, 1);
+    public Matrix initRandom() {
+        return initRandom(-1, 1);
+
     }
 
-    public void initRandom(double min, double max) {
+    public Matrix initRandom(double min, double max) {
         double range = max - min;
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
@@ -172,6 +175,23 @@ public class Matrix {
                 matrix[x][y] = rand;
             }
         }
+        return this;
+    }
+
+    public int[] highestValueIndex(){
+        double highest = matrix[0][0];
+        int[] position = {0,0};
+
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                if(highest < matrix[x][y]){
+                    highest = matrix[x][y];
+                    position[0] = x;
+                    position[1] = y;
+                }
+            }
+        }
+        return position;
     }
 
     public String toString() {

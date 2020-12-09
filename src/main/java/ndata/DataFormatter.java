@@ -19,17 +19,21 @@ public class DataFormatter {
         this.lines = lines;
     }
 
+//    splits based on delimiter and creates ArrayList of lines
     public void format() {
-        //init arraylists
+        //init arraylists - create columns based on the first line
         String[] firstLineElements = lines.get(0).split(delimiter);
         for (String element : firstLineElements) {
             columns.add(new ArrayList<>());
         }
 
+//        go through all lines
         for (String line : lines) {
 
+//            split
             String[] lineElements = line.split(delimiter);
 
+//            push into respective columns
             int i = 0;
             for (String element : lineElements) {
                 columns.get(i).add(element);
@@ -38,10 +42,12 @@ public class DataFormatter {
         }
     }
 
+//    extracts/removes the class column from data
     public ArrayList<String> extractClassColumn(int i) {
         return columns.remove(i);
     }
 
+//    converts a string to a number
     private Double toDouble(String s) {
         try {
             Double d = Double.parseDouble(s);

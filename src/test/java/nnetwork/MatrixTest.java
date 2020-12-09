@@ -48,9 +48,8 @@ public class MatrixTest {
     @Test
     public void initNumbers() {
         Matrix m = new Matrix(10, 1);
-        m.initNumbers();
 
-        double[][] mArr = m.getRaw();
+        double[][] mArr = m.initNumbers().getRaw();
 
         Assert.assertEquals(10, mArr.length);
         Assert.assertEquals(1, mArr[0].length);
