@@ -9,3 +9,6 @@ target/
 
 # Temporary
 temp/
+
+#Predictions output
+data/output

@@ -1,11 +1,12 @@
+import ndata.DataExporter;
 import ndata.DataFile;
 import nnetwork.LayerManager;
 import nnetwork.Matrix;
 import nnormal.Normalizer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
@@ -116,6 +117,7 @@ public class Main {
 
 
 //        training
+        StringBuilder trainingOutput = new StringBuilder();
         System.out.println(ANSI_YELLOW + "Training using " + trainFilePath + ANSI_RESET);
         for (int row = 0; row < trainingData.get(0).size(); row++) {
 
@@ -140,8 +142,11 @@ public class Main {
                 } else {
                     System.out.print(ANSI_RED);
                 }
-                System.out.println("Predicted: " + predictedClass + "  " + "Expected: " + expectedClass);
+                String singleTrainOutput = "Predicted: " + predictedClass + "  " + "Expected: " + expectedClass;
+                System.out.println(singleTrainOutput);
                 System.out.print(ANSI_RESET);
+
+                trainingOutput.append(singleTrainOutput).append("\n");
 
 //                construct expected Matrix
                 Matrix expected = new Matrix(outputSize, 1);
@@ -159,7 +164,12 @@ public class Main {
             }
         }
 
+//        save training output prediction to a file
+        DataExporter trainOutputFile = new DataExporter("data/output", "trainOutput.txt");
+        trainOutputFile.write(trainingOutput.toString());
+
 //        testing
+        StringBuilder testingOutput = new StringBuilder();
         System.out.println("\n" + ANSI_BLUE + "Testing using " + testFilePath + ANSI_RESET);
         for (int row = 0; row < testingData.get(0).size(); row++) {
 
@@ -179,25 +189,25 @@ public class Main {
 //                check accuracy
                 String predictedClass = uniqueClasses.get(position[0]);
                 String expectedClass = testingClasses.get(row);
+//                colored console output
                 if (predictedClass.equalsIgnoreCase(expectedClass)) {
                     System.out.print(ANSI_GREEN);
                 } else {
                     System.out.print(ANSI_RED);
                 }
-                System.out.println("Predicted: " + predictedClass + "  " + "Expected: " + expectedClass);
+                String singleTestingOutput = "Predicted: " + predictedClass + "  " + "Expected: " + expectedClass;
+                System.out.println(singleTestingOutput);
                 System.out.print(ANSI_RESET);
 
-//                construct expected Matrix
-                Matrix expected = new Matrix(outputSize, 1);
-                double[][] expectedArray = expected.initWith(0).getRaw();
-//                get position of the expected class in the uniqueClasses
-                int expectedIndex = uniqueClasses.indexOf(expectedClass);
-                expectedArray[expectedIndex][0] = 1;
-                expected = new Matrix(expectedArray);
+                testingOutput.append(singleTestingOutput).append("\n");
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+//        save testing output prediction to a file
+        DataExporter testOutputFile = new DataExporter("data/output", "testOutput.txt");
+        testOutputFile.write(testingOutput.toString());
+
     }
 }
