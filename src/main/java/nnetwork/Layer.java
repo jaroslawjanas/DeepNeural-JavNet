@@ -31,6 +31,11 @@ public class Layer {
         biases.initNumbers();
     }
 
+    public void initWith(double d) {
+        weights.initWith(d);
+        biases.initWith(d);
+    }
+
     public void initWithMatrices(Matrix weights, Matrix biases) {
         this.setWeights(weights);
         this.setBiases(biases);

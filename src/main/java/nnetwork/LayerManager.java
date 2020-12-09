@@ -13,16 +13,21 @@ public class LayerManager {
 
     public LayerManager(int inputSize, int hiddenLayerCount, int layerSize, int outputSize) throws Exception {
 //        if layerCount is less than 1, no hidden layers, only output;
-        if (hiddenLayerCount < 1) {
-            throw new Exception("layerCount must be at least 1");
-        }
+//        if (hiddenLayerCount < 0) {
+//            throw new Exception("layerCount must be at least 1");
+//        }
 
 //        if hiddenLayerCount is 1 two layers will be created
 //        the 1 hidden layer and the output layer
 //        there is no input layer since it's simply a vector
 //        processed by the hidden layer
         for (int i = 0; i < hiddenLayerCount + 1; i++) {
-            if (i == 0) {
+
+            if(i == 0 && i == hiddenLayerCount){
+//                if first and last layer
+                Layer layer = new Layer(outputSize, inputSize);
+                layers.add(layer);
+            } else if (i == 0) {
 //                first hidden layer
                 Layer layer = new Layer(layerSize, inputSize);
                 layers.add(layer);
@@ -51,6 +56,12 @@ public class LayerManager {
     public void initAllNumbers() {
         for (Layer layer : layers) {
             layer.initNumbers();
+        }
+    }
+
+    public void initAllWith(double d) {
+        for (Layer layer : layers) {
+            layer.initWith(d);
         }
     }
 
