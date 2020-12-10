@@ -1,6 +1,7 @@
 package ndata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Jaroslaw Janas
@@ -9,6 +10,7 @@ import java.util.ArrayList;
  */
 
 public class DataFormatter {
+//    Not the cleanest solution but will work for now
 
     private ArrayList<String> lines;
     private String delimiter;
@@ -19,7 +21,7 @@ public class DataFormatter {
         this.lines = lines;
     }
 
-//    splits based on delimiter and creates ArrayList of lines
+    //    splits based on delimiter and creates ArrayList of lines
     public void format() {
         //init arraylists - create columns based on the first line
         String[] firstLineElements = lines.get(0).split(delimiter);
@@ -42,12 +44,12 @@ public class DataFormatter {
         }
     }
 
-//    extracts/removes the class column from data
+    //    extracts/removes the class column from data
     public ArrayList<String> extractClassColumn(int i) {
         return columns.remove(i);
     }
 
-//    converts a string to a number
+    //    converts a string to a number
     private Double toDouble(String s) {
         try {
             Double d = Double.parseDouble(s);
@@ -79,6 +81,24 @@ public class DataFormatter {
 //            add the newly created Double column to the doubleColumns ArrayList
             columnsDouble.add(newColumn);
         }
+    }
+
+    //    must be called before formatting to work
+    public void shuffleLines() {
+        Collections.shuffle(lines);
+    }
+
+    public ArrayList<String> splitAndExtract(double percentage) throws Exception {
+        int totalSize = lines.size();
+        int splitIndex = (int) (totalSize * percentage) - 1;
+        ArrayList<String> a = new ArrayList<>(lines.subList(0, splitIndex));
+        ArrayList<String> b = new ArrayList<>(lines.subList(splitIndex, totalSize));
+
+        if ((a.size() + b.size()) != totalSize) {
+            throw new Exception("Incorrect split occurred: " + a.size() + " + " + b.size() + " != " + totalSize);
+        }
+        lines = b;
+        return a;
     }
 
     public ArrayList<ArrayList<Double>> getColumnsDouble() {

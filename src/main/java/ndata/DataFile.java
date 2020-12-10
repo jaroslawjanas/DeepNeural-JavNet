@@ -13,11 +13,16 @@ public class DataFile {
 
     public DataFile(String filePath, String delimiter, int classColumn) {
         try {
+//            import
             DataImporter importedData = new DataImporter(filePath);
             DataFormatter formatter = new DataFormatter(importedData.getLines());
+//            separate with delimiter
             formatter.setDelimiter(delimiter);
+//            format (flips "data" i.e. makes rows into columns)
             formatter.format();
+//            extracts the class column
             classes = formatter.extractClassColumn(classColumn);
+//            parse remaining numeric data to doubles (from Strings)
             formatter.parseToDouble();
             data = formatter.getColumnsDouble();
 

@@ -1,17 +1,10 @@
-import ndata.DataExporter;
 import ndata.DataFile;
-import nnetwork.LayerManager;
-import nnetwork.Matrix;
-import nnetwork.NeuralNetwork;
-import nnormal.Normalizer;
+import ndata.DataFileSplitter;
+import nnetwork.nnManager;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * @author Jaroslaw Janas
@@ -33,12 +26,18 @@ public class Main {
 //    ---------
 
     public static void main(String[] args) {
+//        settings
         String trainFilePath = "data/train.txt";
         String testFilePath = "data/test.txt";
         boolean singleFileTests = false;
-        String singleFile = "data/full.txt";
+        String singleFilePath = "data/full.txt";
+        int singleFileTestIterations = 10;
 
-//        settings
+        int classColumn = 3;
+        String delimiter = "\t";
+
+
+//        settings import
         try {
             File settingsFile = new File("settings.properties");
             InputStream inputStream = new FileInputStream(settingsFile);
@@ -48,16 +47,50 @@ public class Main {
             trainFilePath = settings.getProperty("trainFilePath");
             testFilePath = settings.getProperty("testFilePath");
             singleFileTests = Boolean.parseBoolean(settings.getProperty("singleFileTests"));
-            singleFile = settings.getProperty("singleFile");
+            singleFilePath = settings.getProperty("singleFilePath");
+            classColumn = Integer.parseInt(settings.getProperty("classColumn"));
+            delimiter = settings.getProperty("delimiter").replaceAll("\"", "");
+            singleFileTestIterations = Integer.parseInt(settings.getProperty("singleFileTestIterations"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        NeuralNetwork nn = new NeuralNetwork();
 
+        ArrayList<ArrayList<Double>> trainingData;
+        ArrayList<String> trainingClasses;
+        ArrayList<ArrayList<Double>> testingData;
+        ArrayList<String> testingClasses;
+
+        nnManager nn = new nnManager();
         if(!singleFileTests){
-            nn.evaluateNN(trainFilePath, testFilePath);
+            DataFile trainFile = new DataFile(trainFilePath, delimiter, 3);
+            trainingClasses = trainFile.getClasses();
+            trainingData = trainFile.getData();
+
+            DataFile testFile = new DataFile(testFilePath, delimiter, classColumn);
+            testingClasses = testFile.getClasses();
+            testingData = testFile.getData();
+
+            nn.evaluateNN(trainingData, trainingClasses, testingData, testingClasses, "");
+        }
+        else {
+            double totalAccuracy = 0;
+            for(int i = 0; i<singleFileTestIterations; i++) {
+                DataFileSplitter sFile = new DataFileSplitter(singleFilePath, delimiter, classColumn);
+
+                trainingData = sFile.getTrainingData();
+                trainingClasses = sFile.getTrainingClasses();
+                testingData = sFile.getTestingData();
+                testingClasses = sFile.getTestingClasses();
+
+
+                nn.evaluateNN(trainingData, trainingClasses, testingData, testingClasses, (i+1) + "_");
+                totalAccuracy += nn.getAccuracy();
+            }
+
+            double averageAccuracy = totalAccuracy/singleFileTestIterations;
+            System.out.println(ANSI_WHITE + "\n\nTotal Accuracy: " + ANSI_YELLOW + averageAccuracy + " %" + ANSI_RESET);
         }
 
 

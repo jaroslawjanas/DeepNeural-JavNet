@@ -1,7 +1,6 @@
 package nnetwork;
 
 import ndata.DataExporter;
-import ndata.DataFile;
 import nnormal.Normalizer;
 
 import java.io.File;
@@ -14,11 +13,11 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
-* @author Jaroslaw Janas
-* @date 09/12/20
-* @project NN-Perceptron
- *
-*/public class NeuralNetwork {
+ * @author Jaroslaw Janas
+ * @date 09/12/20
+ * @project NN-Perceptron
+ */
+public class nnManager {
     //    https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -31,9 +30,8 @@ import java.util.Set;
     public static final String ANSI_WHITE = "\u001B[37m";
 //    ---------
 
-    private String delimiter = "\t";
+    //    settings
     private double learningRate = 1;
-    private int classColumn = 3;
     private int hiddenLayerCount = 1;
     private int layerSize = 16;
     private boolean initWith = false;
@@ -41,19 +39,20 @@ import java.util.Set;
     private boolean initRand = true;
     private double initRandMin = -1.0;
     private double initRandMax = -1.0;
-    private boolean detailedOutput=false;
+    private boolean detailedOutput = false;
 
-    public NeuralNetwork(){
-//        settings
+    //    variables
+    private double accuracy = 0.0;
+
+    public nnManager() {
+//        settings import
         try {
             File settingsFile = new File("settings.properties");
             InputStream inputStream = new FileInputStream(settingsFile);
             Properties settings = new Properties();
             settings.load(inputStream);
 
-            delimiter = settings.getProperty("delimiter").replaceAll("\"", "");
             learningRate = Double.parseDouble(settings.getProperty("learningRate"));
-            classColumn = Integer.parseInt(settings.getProperty("classColumn"));
             hiddenLayerCount = Integer.parseInt(settings.getProperty("hiddenLayerCount"));
             layerSize = Integer.parseInt(settings.getProperty("layerSize"));
             initWith = Boolean.parseBoolean(settings.getProperty("initWith"));
@@ -68,18 +67,17 @@ import java.util.Set;
         }
     }
 
-    public void evaluateNN(String trainFilePath, String testFilePath){
-        DataFile trainFile = new DataFile(trainFilePath, delimiter, 3);
-        ArrayList<String> trainingClasses = trainFile.getClasses();
-        ArrayList<ArrayList<Double>> trainingData = trainFile.getData();
+    public void evaluateNN(
+            ArrayList<ArrayList<Double>> trainingData,
+            ArrayList<String> trainingClasses,
+            ArrayList<ArrayList<Double>> testingData,
+            ArrayList<String> testingClasses,
+            String filePrefix) {
 
         //normalizes data in a certain range with respect to the data in each column
         Normalizer normalizer = new Normalizer(trainingData, -1, 1);
         trainingData = normalizer.normalize(trainingData);
 
-        DataFile testFile = new DataFile(testFilePath, delimiter, classColumn);
-        ArrayList<String> testingClasses = testFile.getClasses();
-        ArrayList<ArrayList<Double>> testingData = testFile.getData();
 //        note that the same normalizer is used to normalize the testingData
 //        with the same parameters and with respect to the trainingData
         testingData = normalizer.normalize(testingData);
@@ -93,7 +91,7 @@ import java.util.Set;
         uniqueClasses.sort(String::compareToIgnoreCase);
 //        ------
         int outputSize = uniqueClasses.size();
-        System.out.println("Detected unique classes: " + uniqueClasses);
+        System.out.println("\nDetected unique classes: " + uniqueClasses);
 
 
 //        init the neural network
@@ -114,8 +112,8 @@ import java.util.Set;
 
 
 //        training
+        System.out.println(ANSI_YELLOW + "Training" + ANSI_RESET);
         StringBuilder trainingOutput = new StringBuilder();
-        System.out.println(ANSI_YELLOW + "Training using " + trainFilePath + ANSI_RESET);
         StringBuilder detailedOutputLog = new StringBuilder();
         for (int row = 0; row < trainingData.get(0).size(); row++) {
 
@@ -142,8 +140,9 @@ import java.util.Set;
                     detailedOutputLog.append(ANSI_RED);
                 }
 
-                detailedOutputLog.append("Predicted: ").append(predictedClass)
-                        .append("  Expected: ").append(expectedClass).append(ANSI_RESET).append("\n");
+                String outcome = "Predicted: " + predictedClass + "  Expected: " + expectedClass;
+                detailedOutputLog.append(outcome).append(ANSI_RESET).append("\n");
+                trainingOutput.append(outcome).append("\n");
 
 //                construct expected Matrix
                 Matrix expected = new Matrix(outputSize, 1);
@@ -165,20 +164,21 @@ import java.util.Set;
                 e.printStackTrace();
             }
         }
-        if(detailedOutput){
+        if (detailedOutput) {
             System.out.print(detailedOutputLog.toString());
         }
 
 //        save training output prediction to a file
-        DataExporter trainOutputFile = new DataExporter("data/output", "trainOutput.txt");
+        DataExporter trainOutputFile = new DataExporter("data/output", filePrefix+"trainOutput.txt");
         trainOutputFile.write(trainingOutput.toString());
 
 //      ------------------------------------------------------------------------------------------
 
 //        testing
-        int correct = 0, wrong = 0;
-        System.out.println("\n" + ANSI_YELLOW + "Testing using " + testFilePath + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "Testing" + ANSI_RESET);
         detailedOutputLog = new StringBuilder();
+        StringBuilder testingOutput = new StringBuilder();
+        int correct = 0, wrong = 0;
         for (int row = 0; row < testingData.get(0).size(); row++) {
 
             double[][] rowData = new double[testingData.size()][1];
@@ -204,8 +204,9 @@ import java.util.Set;
                     wrong++;
                     detailedOutputLog.append(ANSI_RED);
                 }
-                detailedOutputLog.append("Predicted: ").append(predictedClass)
-                        .append("  Expected: ").append(expectedClass).append(ANSI_RESET).append("\n");
+                String outcome = "Predicted: " + predictedClass + "  Expected: " + expectedClass;
+                detailedOutputLog.append(outcome).append(ANSI_RESET).append("\n");
+                testingOutput.append(outcome).append("\n");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -213,9 +214,10 @@ import java.util.Set;
         }
 
 //        save testing output prediction to a file
-        DataExporter testOutputFile = new DataExporter("data/output", "testOutput.txt");
+        DataExporter testingOutputFile = new DataExporter("data/output", filePrefix+"testOutput.txt");
+        testingOutputFile.write(testingOutput.toString());
 
-        if(detailedOutput){
+        if (detailedOutput) {
             System.out.print(detailedOutputLog.toString());
         }
 
@@ -223,7 +225,11 @@ import java.util.Set;
         System.out.println("\n" + ANSI_YELLOW + "Statistics" + ANSI_RESET);
         System.out.println(ANSI_WHITE + "Correct: " + ANSI_GREEN + correct + ANSI_RESET);
         System.out.println(ANSI_WHITE + "Wrong: " + ANSI_RED + wrong + ANSI_RESET);
-        double accuracy = (double) correct / (correct + wrong) * 100;
+        accuracy = (double) correct / (correct + wrong) * 100;
         System.out.println(ANSI_WHITE + "Accuracy: " + ANSI_YELLOW + accuracy + " %" + ANSI_RESET);
+    }
+
+    public double getAccuracy() {
+        return accuracy;
     }
 }
