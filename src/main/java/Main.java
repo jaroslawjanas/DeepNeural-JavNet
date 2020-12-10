@@ -90,7 +90,7 @@ public class Main {
             }
 
             double averageAccuracy = totalAccuracy/singleFileTestIterations;
-            System.out.println(ANSI_WHITE + "\n\nTotal Accuracy: " + ANSI_YELLOW + averageAccuracy + " %" + ANSI_RESET);
+            System.out.println("\n\nTotal Accuracy: " + averageAccuracy + " %");
         }
 
 

@@ -112,7 +112,7 @@ public class nnManager {
 
 
 //        training
-        System.out.println(ANSI_YELLOW + "Training" + ANSI_RESET);
+        System.out.println("Training");
         StringBuilder trainingOutput = new StringBuilder();
         StringBuilder detailedOutputLog = new StringBuilder();
         for (int row = 0; row < trainingData.get(0).size(); row++) {
@@ -175,7 +175,7 @@ public class nnManager {
 //      ------------------------------------------------------------------------------------------
 
 //        testing
-        System.out.println(ANSI_YELLOW + "Testing" + ANSI_RESET);
+        System.out.println("Testing");
         detailedOutputLog = new StringBuilder();
         StringBuilder testingOutput = new StringBuilder();
         int correct = 0, wrong = 0;
@@ -222,11 +222,11 @@ public class nnManager {
         }
 
 //        stats
-        System.out.println("\n" + ANSI_YELLOW + "Statistics" + ANSI_RESET);
-        System.out.println(ANSI_WHITE + "Correct: " + ANSI_GREEN + correct + ANSI_RESET);
-        System.out.println(ANSI_WHITE + "Wrong: " + ANSI_RED + wrong + ANSI_RESET);
+        System.out.println("\n" + "Statistics");
+        System.out.println("Correct: " + correct);
+        System.out.println("Wrong: " + wrong);
         accuracy = (double) correct / (correct + wrong) * 100;
-        System.out.println(ANSI_WHITE + "Accuracy: " + ANSI_YELLOW + accuracy + " %" + ANSI_RESET);
+        System.out.println("Accuracy: " + accuracy + " %");
     }
 
     public double getAccuracy() {
